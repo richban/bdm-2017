@@ -130,11 +130,10 @@ object LoadReadings {
       "from_unixtime(ts, 'HH:mm:ss') as time, count(cid) num_clients_connected" +
       " FROM time_series_location GROUP BY did, location, date, time")
 
+    // View2 the average signal strength of users to an access point
+    val view2 = spark.sql("SELECT did, cid, avg(rssi) as avg_signal_strength FROM time_series_location GROUP BY 1, 2")
 
-		val sqlDF2 = spark.sql("SELECT location, from_unixtime(ts,'dd-MM-YYYY') as date, " +
-      "from_unixtime(ts,'HH:mm:ss') as time, count(cid) as num_clients" +
-			" FROM time_series_location GROUP BY location, date, time ORDER BY num_clients DESC")
-		// sqlDF2.show()
+
 
   }
 }
