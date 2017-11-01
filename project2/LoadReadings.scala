@@ -1,23 +1,42 @@
 import org.apache.spark.sql.Dataset
-import org.apache.spark.sql.Row
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.Encoders
 import org.apache.spark.sql.types._
-import org.apache.spark.sql.functions._
+import org.apache.spark.sql.types._
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.sql.Date
 
-import spire.random.mutable.Device
-
+import com.sun.tools.internal.ws.processor.model.java.JavaStructureType
 import org.apache.spark.SparkConf
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 
-case class Readings (did:String, readings:Array[(Array[(String,String,Double,Double,String)],Long)])
-case class ExplodedReadings (did: String, readings:(Array[(String,String,Double,Double,String)],Long))
-case class FlattenedReadingsInput (did:String, cid:Array[String], clientOS:Array[String], rssi:Array[Double], snRatio:Array[Double], ssid:Array[String], ts:Long)
-case class FlattenedReadings (did:String, cid:String, clientOS:String, rssi:Double, snRatio:Double, ssid:String, ts:Long)
-case class MetaData (deviceName: String, upTime: String, deviceFunction: String, deviceMode: String, did: String, location: String)
+case class Readings (did:String,
+										 readings:Array[(Array[(String,String,
+											 Double,Double,String)],Long)])
+
+case class ExplodedReadings (did: String,
+														 readings:(Array[(String,
+															 String,Double,Double,String)],Long))
+
+case class FlattenedReadingsInput (did:String, cid:Array[String],
+																	 clientOS:Array[String], rssi:Array[Double],
+																	 snRatio:Array[Double], ssid:Array[String],
+																	 ts:Long)
+
+case class FlattenedReadings (did:String, cid:String,
+															clientOS:String, rssi:Double,
+															snRatio:Double, ssid:String, ts:Long)
+
+case class MetaData (deviceName: String, upTime: String,
+										 deviceFunction: String, deviceMode: String,
+										 did: String, location: String)
+
+case class Rooms (name: String, startDate: String,
+                  endDate: String, startTime: String,
+                  endTime: String, room: String, `type`: String,
+                  lecturers: String, programme: String)
+
 
 object LoadReadings {
 
@@ -31,8 +50,8 @@ object LoadReadings {
 
 	def loadReadings (path:String): Dataset[Readings] = {
 		spark.read
-			 .json(path)
-			 .as[Readings]
+			.json(path)
+			.as[Readings]
 	}
 
 	def loadMetaData (path:String): Dataset[MetaData] = {
@@ -40,6 +59,12 @@ object LoadReadings {
 			.json(path)
 			.as[MetaData]
 	}
+
+  def loadRooms (path:String): Dataset[Rooms] = {
+    spark.read
+      .json(path)
+      .as[Rooms]
+  }
 
 	def fullFlatten(df:Dataset[FlattenedReadingsInput]) : Dataset[FlattenedReadings] = {
 		df.flatMap(row => {
@@ -76,38 +101,40 @@ object LoadReadings {
 
 	def main(args: Array[String]) = {
 
-    // file paths
-    val file1 = "/data/time_series/*.json"
-    val file2 = "/data/rooms/*.json"
-    val file3 = "/data/meta.json"
-
-//    val hdfs1 = "hdfs:/user/group12/itu_data/wifi_data/*.json"
-//    val hdfs2 = "hdfs:/user/group12/itu_data/rooms_data/*.json"
-//    val hdfs3 = "hdfs:/user/group12/itu_data/meta.json"
+    val hdfs1 = "itu_data/wifi_data/*.json"
+    val hdfs2 = "itu_data/rooms_data/*.json"
+    val hdfs3 = "itu_data/meta.json"
 
     // Load data
-		val wifiData = LoadReadings.loadReadings(file1)
-    val roomData = LoadReadings.loadReadings(file2)
-		val metaData = LoadReadings.loadMetaData(file3)
+		val wifiData = LoadReadings.loadReadings(hdfs1)
+    val roomData = LoadReadings.loadRooms(hdfs2)
+		val metaData = LoadReadings.loadMetaData(hdfs3)
 
-    // Flatten wifiData
+//    // Flatten wifiData
 		val flattenReadings = LoadReadings.fullFlatten(LoadReadings.flattenDF(wifiData))
 //
 //    // Join wifiData && metaData
-//		val mergeData = flattenReadings.join(metaData, "did")
-//
-//    // Create temporary view 1
-//		flattenReadings.createOrReplaceTempView("time_series")
-//		val sqlDF = spark.sql("SELECT did, from_unixtime(ts,'dd-MM-YYYY-HH:mm:ss'), " +
-//      "count(cid) FROM time_series GROUP BY did,ts ORDER BY 2")
-//		sqlDF.show()
-//
-//    // Create temporary view 2
-//		mergeData.createOrReplaceTempView("time_series_location")
-//		val sqlDF = spark.sql("SELECT location, from_unixtime(ts,'dd-MM-YYYY') as date, " +
-//      "from_unixtime(ts,'HH:mm:ss') as time, count(cid) as num_clients" +
-//			" FROM time_series_location GROUP BY location, date, time ORDER BY num_clients DESC")
-//		sqlDF.show()
-	}
+		val mergeData = flattenReadings.join(metaData, "did")
 
+    // Join Wifi Data && Rooms
+    val wifiRoom = mergeData.join(roomData, $"location" === $"room")
+
+    // Create temporary views
+		flattenReadings.createOrReplaceTempView("time_series")
+    mergeData.createOrReplaceTempView("time_series_location")
+    wifiRoom.createOrReplaceTempView("wifi_room")
+
+
+    // View1 Number of connections to an access point at a certain time
+    val view1 = spark.sql("SELECT did, location, from_unixtime(ts, 'dd-MM-YYYY') as date," +
+      "from_unixtime(ts, 'HH:mm:ss') as time, count(cid) num_clients_connected" +
+      " FROM time_series_location GROUP BY did, location, date, time")
+
+
+		val sqlDF2 = spark.sql("SELECT location, from_unixtime(ts,'dd-MM-YYYY') as date, " +
+      "from_unixtime(ts,'HH:mm:ss') as time, count(cid) as num_clients" +
+			" FROM time_series_location GROUP BY location, date, time ORDER BY num_clients DESC")
+		// sqlDF2.show()
+
+  }
 }
