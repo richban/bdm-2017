@@ -1,0 +1,49 @@
+[0m[[0m[0mdebug[0m] [0m[0mFull compilation, no sources in previous analysis.[0m
+[0m[[0m[0mdebug[0m] [0m[0mAll sources are invalidated.[0m
+[0m[[0m[0mdebug[0m] [0m[0mRecompiling all 1 sources: invalidated sources (1) exceeded 50.0% of all sources[0m
+[0m[[0m[0minfo[0m] [0m[0mCompiling 1 Scala source to /Users/developer2/Developer/itu/big-data/project3/loadxml/target/scala-2.12/classes ...[0m
+[0m[[0m[0mdebug[0m] [0m[0mGetting org.scala-sbt:compiler-bridge_2.12:1.0.3:compile for Scala 2.12.3[0m
+[0m[[0m[0minfo[0m] [0m[0mNon-compiled module 'compiler-bridge_2.12' for Scala 2.12.3. Compiling...[0m
+[0m[[0m[0mdebug[0m] [0m[0mCreating plain compiler interface for 2.12.3.[0m
+[0m[[0m[0mdebug[0m] [0m[0m  > Arguments: [0m
+[0m[[0m[0mdebug[0m] [0m[0m	-nowarn[0m
+[0m[[0m[0mdebug[0m] [0m[0m	-d[0m
+[0m[[0m[0mdebug[0m] [0m[0m	/var/folders/xm/0txtmnfn5y1_6rcbyfnflgwc0000gn/T/sbt_7ffb20a2[0m
+[0m[[0m[0mdebug[0m] [0m[0m	-bootclasspath[0m
+[0m[[0m[0mdebug[0m] [0m[0m	/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib/resources.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib/rt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib/sunrsasign.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib/jsse.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib/jce.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib/charsets.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib/jfr.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/classes:/Users/developer2/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.12.3.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0m	-classpath[0m
+[0m[[0m[0mdebug[0m] [0m[0m	/var/folders/xm/0txtmnfn5y1_6rcbyfnflgwc0000gn/T/sbt_57c1503e/jars/org.scala-sbt/compiler-interface/compiler-interface-1.0.3.jar:/var/folders/xm/0txtmnfn5y1_6rcbyfnflgwc0000gn/T/sbt_57c1503e/jars/org.scala-sbt/util-interface/util-interface-1.0.0.jar:/var/folders/xm/0txtmnfn5y1_6rcbyfnflgwc0000gn/T/sbt_57c1503e/srcs/org.scala-sbt/compiler-bridge_2.12/compiler-bridge_2.12-1.0.3-sources.jar:/Users/developer2/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.12.3.jar:/Users/developer2/.ivy2/cache/org.scala-lang/scala-reflect/jars/scala-reflect-2.12.3.jar:/Users/developer2/.ivy2/cache/jline/jline/jars/jline-2.14.4.jar:/Users/developer2/.ivy2/cache/org.scala-lang.modules/scala-xml_2.12/bundles/scala-xml_2.12-1.0.6.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0m	/var/folders/xm/0txtmnfn5y1_6rcbyfnflgwc0000gn/T/sbt_f0994a21/xsbt/API.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	/var/folders/xm/0txtmnfn5y1_6rcbyfnflgwc0000gn/T/sbt_f0994a21/xsbt/Analyzer.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	/var/folders/xm/0txtmnfn5y1_6rcbyfnflgwc0000gn/T/sbt_f0994a21/xsbt/CallbackGlobal.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	/var/folders/xm/0txtmnfn5y1_6rcbyfnflgwc0000gn/T/sbt_f0994a21/xsbt/ClassName.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	/var/folders/xm/0txtmnfn5y1_6rcbyfnflgwc0000gn/T/sbt_f0994a21/xsbt/Command.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	/var/folders/xm/0txtmnfn5y1_6rcbyfnflgwc0000gn/T/sbt_f0994a21/xsbt/Compat.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	/var/folders/xm/0txtmnfn5y1_6rcbyfnflgwc0000gn/T/sbt_f0994a21/xsbt/CompilerInterface.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	/var/folders/xm/0txtmnfn5y1_6rcbyfnflgwc0000gn/T/sbt_f0994a21/xsbt/ConsoleInterface.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	/var/folders/xm/0txtmnfn5y1_6rcbyfnflgwc0000gn/T/sbt_f0994a21/xsbt/DelegatingReporter.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	/var/folders/xm/0txtmnfn5y1_6rcbyfnflgwc0000gn/T/sbt_f0994a21/xsbt/Dependency.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	/var/folders/xm/0txtmnfn5y1_6rcbyfnflgwc0000gn/T/sbt_f0994a21/xsbt/ExtractAPI.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	/var/folders/xm/0txtmnfn5y1_6rcbyfnflgwc0000gn/T/sbt_f0994a21/xsbt/ExtractUsedNames.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	/var/folders/xm/0txtmnfn5y1_6rcbyfnflgwc0000gn/T/sbt_f0994a21/xsbt/GlobalHelpers.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	/var/folders/xm/0txtmnfn5y1_6rcbyfnflgwc0000gn/T/sbt_f0994a21/xsbt/InteractiveConsoleFactory.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	/var/folders/xm/0txtmnfn5y1_6rcbyfnflgwc0000gn/T/sbt_f0994a21/xsbt/InteractiveConsoleHelper.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	/var/folders/xm/0txtmnfn5y1_6rcbyfnflgwc0000gn/T/sbt_f0994a21/xsbt/InteractiveConsoleInterface.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	/var/folders/xm/0txtmnfn5y1_6rcbyfnflgwc0000gn/T/sbt_f0994a21/xsbt/InteractiveConsoleResponse.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	/var/folders/xm/0txtmnfn5y1_6rcbyfnflgwc0000gn/T/sbt_f0994a21/xsbt/JavaUtils.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	/var/folders/xm/0txtmnfn5y1_6rcbyfnflgwc0000gn/T/sbt_f0994a21/xsbt/LocalToNonLocalClass.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	/var/folders/xm/0txtmnfn5y1_6rcbyfnflgwc0000gn/T/sbt_f0994a21/xsbt/LocateClassFile.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	/var/folders/xm/0txtmnfn5y1_6rcbyfnflgwc0000gn/T/sbt_f0994a21/xsbt/Log.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	/var/folders/xm/0txtmnfn5y1_6rcbyfnflgwc0000gn/T/sbt_f0994a21/xsbt/Message.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	/var/folders/xm/0txtmnfn5y1_6rcbyfnflgwc0000gn/T/sbt_f0994a21/xsbt/ScaladocInterface.scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m      [0m
+[0m[[0m[0minfo[0m] [0m[0m  Compilation completed in 11.356s.[0m
+[0m[[0m[0mdebug[0m] [0m[0mGetting org.scala-sbt:compiler-bridge_2.12:1.0.3:compile for Scala 2.12.3[0m
+[0m[[0m[0mdebug[0m] [0m[0m[zinc] Running cached compiler 33dc9387 for Scala compiler version 2.12.3[0m
+[0m[[0m[0mdebug[0m] [0m[0m[zinc] The Scala compiler is invoked with:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	-bootclasspath[0m
+[0m[[0m[0mdebug[0m] [0m[0m	/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib/resources.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib/rt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib/sunrsasign.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib/jsse.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib/jce.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib/charsets.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib/jfr.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/classes:/Users/developer2/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.12.3.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0m	-classpath[0m
+[0m[[0m[0mdebug[0m] [0m[0m	/Users/developer2/Developer/itu/big-data/project3/loadxml/target/scala-2.12/classes:/Users/developer2/.ivy2/cache/org.typelevel/cats_2.12/jars/cats_2.12-0.9.0.jar:/Users/developer2/.ivy2/cache/org.typelevel/cats-macros_2.12/jars/cats-macros_2.12-0.9.0.jar:/Users/developer2/.ivy2/cache/com.github.mpilquist/simulacrum_2.12/jars/simulacrum_2.12-0.10.0.jar:/Users/developer2/.ivy2/cache/org.typelevel/macro-compat_2.12/jars/macro-compat_2.12-1.1.1.jar:/Users/developer2/.ivy2/cache/org.typelevel/machinist_2.12/jars/machinist_2.12-0.6.1.jar:/Users/developer2/.ivy2/cache/org.scala-lang/scala-reflect/jars/scala-reflect-2.12.3.jar:/Users/developer2/.ivy2/cache/org.typelevel/cats-kernel_2.12/jars/cats-kernel_2.12-0.9.0.jar:/Users/developer2/.ivy2/cache/org.typelevel/cats-kernel-laws_2.12/jars/cats-kernel-laws_2.12-0.9.0.jar:/Users/developer2/.ivy2/cache/org.scalacheck/scalacheck_2.12/jars/scalacheck_2.12-1.13.4.jar:/Users/developer2/.ivy2/cache/org.scala-sbt/test-interface/jars/test-interface-1.0.jar:/Users/developer2/.ivy2/cache/org.typelevel/discipline_2.12/jars/discipline_2.12-0.7.2.jar:/Users/developer2/.ivy2/cache/org.typelevel/catalysts-platform_2.12/jars/catalysts-platform_2.12-0.0.5.jar:/Users/developer2/.ivy2/cache/org.typelevel/catalysts-macros_2.12/jars/catalysts-macros_2.12-0.0.5.jar:/Users/developer2/.ivy2/cache/org.typelevel/cats-core_2.12/jars/cats-core_2.12-0.9.0.jar:/Users/developer2/.ivy2/cache/org.typelevel/cats-laws_2.12/jars/cats-laws_2.12-0.9.0.jar:/Users/developer2/.ivy2/cache/org.typelevel/cats-free_2.12/jars/cats-free_2.12-0.9.0.jar:/Users/developer2/.ivy2/cache/org.typelevel/cats-jvm_2.12/jars/cats-jvm_2.12-0.9.0.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0mScala compilation took 12.392932982 s[0m
+[0m[[0m[0minfo[0m] [0m[0mDone compiling.[0m
