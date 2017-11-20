@@ -28,7 +28,35 @@ case class Vehicle (time: Double, id: BigInt, x: Double, y: Double,
                     z: Double, angle: Double, `type`: String, speed: Double,
                     pos: Double, lane: String, slope: Double)
 
+case class Source (time: Double, person: Array[(String, Double, String,
+                    Long, Double, Double, Double, Double, String )],
+                  vehicle: Array[(String, Double, Long, String, Double,
+                    Double, Double, String, Double, Double)])
+
 object LoadXML {
+
+  val sourceSchema = StructType(StructField("time", DoubleType, false),
+    StructField("person", ArrayType(StructType(
+      StructField ("_VALUE", StringType, nullable=false),
+      StructField ("_angle", DoubleType, nullable=false),
+      StructField ("_edge", StringType, nullable=false), 
+      StructField ("_id", LongType, nullable=false), 
+      StructField ("_pos", DoubleType, nullable=false), 
+      StructField ("_slope", DoubleType, nullable=false), 
+      StructField ("_speed", DoubleType, nullable=false), 
+      StructField ("_x", DoubleType, nullable=false), 
+      StructField ("_y", StringType, nullable=false)))),
+    StructField("vehicle", ArrayType(StructType(
+      StructField ("_VALUE", StringType, nullable=false),
+      StructField ("_angle", DoubleType, nullable=false),
+      StructField ("_id", LongType, nullable=false), 
+      StructField ("_lane", StringType, nullable=false), 
+      StructField ("_pos", DoubleType, nullable=false), 
+      StructField ("_slope", DoubleType, nullable=false), 
+      StructField ("_speed", DoubleType, nullable=false), 
+      StructField ("_type", StringType, nullable=false), 
+      StructField ("_x", DoubleType, nullable=false), 
+      StructField ("_y", DoubleType, nullable=false)))))
 
   val vehicleSchema = StructType(Array(
     StructField ("time", DoubleType, nullable=false),
@@ -53,30 +81,12 @@ object LoadXML {
   val sqlContext = new SQLContext(sc)
 
   // Read XML File
-  def loadXML (path: String): Dataset[Vehicle] = {
+  def loadXML (path: String): Dataset[Source] = {
       spark.read
-                .format("com.databricks.spark.csv")
-                .option("header", "true")
-                // .option("inferSchema", "true")
-                .option("delimiter", ";")
-                .load(path)
-                .rdd
-                .map { r => (r.timestep_time, r.vehicle_x, r.vehicle_y,
-                  r.vehicle_z, r.vehicle_angle, r.vehicle_type, r.vehicle_speed,
-                  r.vehicle_pos, r.vehicle_sloper) }
-                .toDS
-                .withColumnRenamed("_1", "time")
-                .withColumnRenamed("_2", "id")
-                .withColumnRenamed("_3", "x")
-                .withColumnRenamed("_4", "y")
-                .withColumnRenamed("_5", "z")
-                .withColumnRenamed("_6", "angle")
-                .withColumnRenamed("_7", "type")
-                .withColumnRenamed("_8", "speed")
-                .withColumnRenamed("_9", "pos")
-                .withColumnRenamed("_10", "lane")
-                .withColumnRenamed("_11", "slope")
-                .as[Vehicle]
+           .format("com.databricks.spark.xml")
+           .option("rowTag", "timestep")
+           .load(path)
+           .as[Source]
   }
 
   // Flatten Vehicle
