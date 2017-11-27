@@ -4,7 +4,7 @@
 		module="hello-world_2.12"
 		revision="1.0"
 		status="integration"
-		publication="20171114181949"
+		publication="20171126205111"
 	>
 		<description>
 		hello-world
@@ -33,5 +33,8 @@
 		<dependency org="org.scala-lang" name="scala-compiler" rev="2.12.3" conf="scala-tool->default,optional(default)"/>
 		<dependency org="org.scala-lang" name="scala-library" rev="2.12.3" conf="scala-tool->default,optional(default);compile->default(compile)"/>
 		<dependency org="org.typelevel" name="cats_2.12" rev="0.9.0" conf="compile->default(compile)"/>
+		<dependency org="org.apache.spark" name="spark-core_2.12" rev="2.1.0" conf="compile->default(compile)"/>
+		<dependency org="org.apache.spark" name="spark-mllib_2.12" rev="2.1.0" conf="compile->default(compile)"/>
+		<dependency org="org.scalactic" name="scalactic_2.12" rev="3.0.1" conf="compile->default(compile)"/>
 	</dependencies>
 </ivy-module>

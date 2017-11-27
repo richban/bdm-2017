@@ -42,7 +42,7 @@ An alternative solution to our problem have been solved with a library called Pa
 
 That concludes the storage layer. Moving towards higher abstraction libraries like Pail we could easily manage dataset on a distributed filesystem, while isolating from the details of the filesystem and violations of the dataset integrity.
 
-![alt text] (/static/storage_layer_pipe.jpg "Schema of Storage Pipe-line")
+![alt text](/static/storage_layer_pipe.jpg "Schema of Storage Pipe-line")
 
 # Batch Layer
 
