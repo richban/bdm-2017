@@ -34,7 +34,7 @@ It provides simple expressive representation of data. With a fact-based model, w
 
 One of the key advantages to represent data in the master dataset using schemas we experienced when implementing the storage layer. The goal was to easily and effectively manage large (growing) dataset. First we have decided for simplicity to use the low-level HDFS API to manage our storage layer. Although we haven’t done any denormalization for performance issues we exploited the files and folders abstraction to improve storage of the master dataset with vertical partitioning. Vertical partitioning enabled large performance gains, we can access data which is relevant to the computation, therefore we don’t need to access the entire dataset. Vertical partitioning of data is done by sorting the data into separate folders in the distributed file system.
 
-![alt text](/static/vertical_partitioning.jpg "Vertical Partitioning")
+![alt text](./static/vertical_partitiniong.jpg "Vertical Partitioning")
 
 We vertically partition the data by day, we create a separate folder for each day of data. Each day a cron job is downloading the data from the source system and afterwards a Scala script is scheduled which appends the new data to hdfs. The Scala script is just using the files-and-folders API of hdfs, thus easily certain bugs and mistakes can break the vertical partitioning constraints of a dataset. This indicated that using hdfs API directly is too low-level of an abstraction for such a task like vertical partitioning in production. All kinds of operations and checks need to happen to correctly manage the dataset thus we have moved to higher-level abstraction solutions which are not only scalable, fault-tolerant and performant, but elegant as well are a necessity.
 
