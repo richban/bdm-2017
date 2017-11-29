@@ -114,6 +114,11 @@ object Main {
       }
 
 
+  def explodeAll(df: Dataset[Source]) = {
+    df.withColumn("person", explode(col("person")))
+      .withColumn("vehicle", explode(col("vehicle")))
+  }
+
   def personDF2(df: Dataset[Source]): Dataset[Person2] = {
     df.drop("vehicle")
     .withColumn("person", explode(col("person")))
@@ -201,8 +206,8 @@ object Main {
     val hdfs = "/sumo-data/FCDOutput.xml"
     val hdfs2 = "hdfs/99ts.xml"
     val local = "/Users/developer2/Developer/itu/big-data/project3/data/99ts_orig.xml"
-    //val xml_ = loadXML(local)
-    //xml_.show(100)
+    val xml_ = loadXML(local)
+    xml_.show(100)
     println("HELLO WORLD")
   }
 

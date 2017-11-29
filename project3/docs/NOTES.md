@@ -47,19 +47,55 @@ That concludes the storage layer. Moving towards higher abstraction libraries li
 
 ## Motivation (Views)
 
-* view 1
-* view 2
-* view 3
+**View 1: Identify the roads with the highest average speed to place speed cameras:** 
+
+Installing speed cameras (traffic enforcement cameras) on high-speed roads to monitor driving and speeding habits is a way to control drivers and reduce the risk of speeding offences which could lead to more serious incidents. Our strategy is to identify these roads/streets and have an overview of these areas that could pose more risk to both pedestrians and drivers to be able to make this plan go forth.
+
+**View 2: Identify roads with the highest pedestrian/vehicle ratio:**
+
+This view provides an overview of which areas are most condensed with people and vehicles in order to have a map of streets that are going to be allocated to only pedestrians like Strøget in Copenhagen. So basically we are identifying new streets to add to the pedestrians-only club. Pedestrianised streets are very useful to the communities in terms of culture and tourism, as well as giving people more freedom for shopping. The success story of Strøget can pave the way for some other places to function car-free. 
+
+**View 3: Identify the ‘most travelled’ roads:**
+
+Damaged roads could lead to road accidents (Washingtonpost 2009). These cases could be fatal for the passengers as well as expensive for the state if the victims file lawsuits (Mirror 2017). Our third view is to minimize the risk of car accidents due to poor road conditions. So the strategy here is to identify the most driven/used roads and prioritize road maintenance based on the data. This can be a very fast and efficient way to provide a better service for drivers and a safer city to live in for the residents. This is also a good example of data-driven service providing, where the data creates a cheaper solution to serve the city. This system can eliminate the old-fashioned and expensive way of handling road maintenance where the city authorities had to wait for a failure or a complaint in order to be able to identify bad roads.
+
 
 ## Batch Procesing
 
-* Pipe Diagrams of Views
+We design the batch layer that loads data from the storage layer (HDFS), enforces data quality, consistency and delivers our views into serving layer.
+
+![alt text](./static/batch.jpg "Schema of Storage Pipe-line")
+
+### Flattening
+
+The following pipe diagram depicts the specific algorithms and data processing transformation:
+
+![alt text](./static/flatening.jpg "Data-processing transformation")
+
+Input Schema:
+
+```
++----+--------------------+--------------------+
+|time|              person|             vehicle|
++----+--------------------+--------------------+
+| 0.0|[[null,179.75651,...|[[null,-18.966962...|
+| 1.0|[[null,-107.01505...|[[null,-18.966962...|
+| 2.0|[[null,75.774036,...|[[null,161.707365...|
++----+--------------------+--------------------+
+``` 
+
+
+
+### Semantic Normalization
+We come across a form of data such as an unstructured *lane/edge* string. In order to get as much knowledge as possible we used semantic normalization to reshape the unstructured *lane/edge*. Which is a function that takes the *lane* or *edge* as string and normalized it to (movement, edge, edge_type, edge_lane). Yet this simple semantic normalization may have not be 100% correct since our (meta) information about the this data field is vague, later on we can improve our algorithm and run the batch recomputation. The following diagram describes the function:
+
+![alt text](./static/parse_edge.jpg "Edge/Lane semantic normalization")
+
+
 
 ### Computing on Batch Layer
 
 Batch layer precomputes the master dataset into batch views so that our presentation layer (Tableu) can query data and present at low latency. An high level overview can be seen in the picture:
-
-![alt text](./static/batch.jpg "Schema of Storage Pipe-line")
 
 Since the batch layer runs different transformation on the entire master dataset to precompute our views and we assume that our dataset is growing over time we had to come up with a feasible solution to avoid massive performance cost.
 
@@ -69,11 +105,10 @@ Our big data solution supports both recomputation and incremental algorithms.
 * **Recomputation** - each time a new data is added to the master dataset the old views are deleted and recomputed on the entire master dataset. This task requires massive computational effort, which results in low latency but it's essential that we ensure data integrity.
 * **Incremental** - in contranst the incremental approach only process the new comming data and updates our views. This solution requires much less computational resources, and increase the effiency ouf our system, but requires more algorithm complexity.
 
-The key trade-offs between two approaches are performance and data consistency. The incremental approach provide additional efficiency, but since we also partioned the storage layer we can run batch computation on the slice of the master dataset.
+The key trade-offs between two approaches are performance and data consistency. The incremental approach provide additional efficiency, but we also partioned the storage layer, we can easily identify when our dataset get corrupted and run the batch computation on the slice of the master dataset. 
 
-### Flatening
+### Pipe Diagrams of Views
 
-### Normalization
 
 ## Serving Layer
 
