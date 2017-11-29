@@ -12,20 +12,22 @@ scalaVersion := "2.11.8"
 
 // It's possible to define many kinds of settings, such as:
 
+
 name := "Big Data Project"
 organization := "dk.itu.group12"
 version := "1.0"
 
 scalacOptions ++= Seq("-unchecked", "-deprecation")
 
+initialCommands in console := 
+  """
+  import Main._
+  """
+
 // Note, it's not required for you to define these three settings. These are
 // mostly only necessary if you intend to publish your library's binaries on a
 // place like Sonatype or Bintray.
 
-initialCommands in console :=
-  """
-  import Main._
-  """
 
 // Want to use a published library in your project?
 // You can define other libraries as dependencies in your build like this:

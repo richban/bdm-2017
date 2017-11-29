@@ -2,8 +2,6 @@
 
 Before digging into the technical details of the storage layer, we concluded the most important goals of our architecture. We had to engineer that our master data set is absolutely corruption proof and fault tolerant which is the most essential part of the Lambda Architecture. The main components of the master dataset: the data model and how data is physically stored. We started by learning the key properties of data.
 
-The data represents trips…
-
 Data comes from the operations systems in xml formats on daily basis. When design our Big Data service, we wanted to ensure that we will be able to answer as many question as possible. Therefore we are storing the rawest data. Storing raw data allow us to maximize our ability to gain new insights, which were not considered when  examining the dataset. We understand that raw data entails more storage requirements and more resources but our service is design with the big data technologies (Hadoop Stack) which are able to manage large amount of data in a distributed, scalable manner.
 
 ```
@@ -42,7 +40,7 @@ An alternative solution to our problem have been solved with a library called Pa
 
 That concludes the storage layer. Moving towards higher abstraction libraries like Pail we could easily manage dataset on a distributed filesystem, while isolating from the details of the filesystem and violations of the dataset integrity.
 
-![alt text](/static/storage_layer_pipe.jpg "Schema of Storage Pipe-line")
+![alt text](./static/storage_layer_pipe.jpg "Schema of Storage Pipe-line")
 
 # Batch Layer
 
@@ -55,11 +53,27 @@ That concludes the storage layer. Moving towards higher abstraction libraries li
 
 ## Batch Procesing
 
-* Flattening Explained (Pipe Diagram)
-* Normalization Explained (Pipe Diagram)
-* Recomputation Explained
-* Human Fault Tolerance
 * Pipe Diagrams of Views
+
+### Computing on Batch Layer
+
+Batch layer precomputes the master dataset into batch views so that our presentation layer (Tableu) can query data and present at low latency. An high level overview can be seen in the picture:
+
+![alt text](./static/batch.jpg "Schema of Storage Pipe-line")
+
+Since the batch layer runs different transformation on the entire master dataset to precompute our views and we assume that our dataset is growing over time we had to come up with a feasible solution to avoid massive performance cost.
+
+#### Recomputation and increamental
+Our big data solution supports both recomputation and incremental algorithms.
+
+* **Recomputation** - each time a new data is added to the master dataset the old views are deleted and recomputed on the entire master dataset. This task requires massive computational effort, which results in low latency but it's essential that we ensure data integrity.
+* **Incremental** - in contranst the incremental approach only process the new comming data and updates our views. This solution requires much less computational resources, and increase the effiency ouf our system, but requires more algorithm complexity.
+
+The key trade-offs between two approaches are performance and data consistency. The incremental approach provide additional efficiency, but since we also partioned the storage layer we can run batch computation on the slice of the master dataset.
+
+### Flatening
+
+### Normalization
 
 ## Serving Layer
 

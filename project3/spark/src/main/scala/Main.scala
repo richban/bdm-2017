@@ -8,6 +8,7 @@ import org.apache.spark.sql.types._
 import com.databricks.spark.xml._
 import org.apache.spark.sql._
 import org.apache.spark.sql.functions._
+import scala.io.Source
 
 
 case class Person (time: Double, id: Long, x: Double, y: Double,
@@ -66,7 +67,7 @@ object Main {
 
   // Read XML File
   def loadXML(path: String): Dataset[Source] = {
-    spark.sqlContext.read
+    spark.read
       .format("com.databricks.spark.xml")
       .option("rowTag", "timestep")
       .option("nullValue", "null")
@@ -199,11 +200,12 @@ object Main {
 
   def run(): Unit = {
     val hdfs = "/sumo-data/FCDOutput.xml"
-    val hdfs2 = "hdfs/99ts.xml"
-    val local = "/Users/developer2/Developer/itu/big-data/project3/data/99ts_orig.xml"
-    //val xml_ = loadXML(local)
-    //xml_.show(100)
-    println("HELLO WORLD")
+    val local = "../data/99ts.xml"
+    //val xml = loadXML(local)
+    // xml.show(100, true)
+    for (line <- Source.fromFile(local).getLines) {
+      println(line)
+    }
   }
 
   def main(args: Array[String]) = run()

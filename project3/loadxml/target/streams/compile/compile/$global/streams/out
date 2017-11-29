@@ -1,4 +1,0 @@
-[0m[[0m[33mwarn[0m] [0m[0m/Users/developer2/Developer/itu/big-data/project3/loadxml/src/main/scala/Main.scala:51:20: constructor SQLContext in class SQLContext is deprecated: Use SparkSession.builder instead[0m
-[0m[[0m[33mwarn[0m] [0m[0m  val sqlContext = new SQLContext(sc)[0m
-[0m[[0m[33mwarn[0m] [0m[0m                   ^[0m
-[0m[[0m[33mwarn[0m] [0m[0mone warning found[0m
