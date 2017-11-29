@@ -6,3 +6,6 @@ metastore_db/*
 /**/itu_data/**
 /**/book/**
 *.pdf
+/**/project/**
+/**/target/**
+.idea/
