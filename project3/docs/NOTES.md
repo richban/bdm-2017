@@ -45,7 +45,7 @@ That concludes the storage layer. Moving towards higher abstraction libraries li
 # Batch Layer
 
 
-## Motivation (Views)
+### Motivation (Views)
 
 **View 1: Identify the roads with the highest average speed to place speed cameras:** 
 
@@ -58,6 +58,20 @@ This view provides an overview of which areas are most condensed with people and
 **View 3: Identify the ‘most travelled’ roads:**
 
 Damaged roads could lead to road accidents (Washingtonpost 2009). These cases could be fatal for the passengers as well as expensive for the state if the victims file lawsuits (Mirror 2017). Our third view is to minimize the risk of car accidents due to poor road conditions. So the strategy here is to identify the most driven/used roads and prioritize road maintenance based on the data. This can be a very fast and efficient way to provide a better service for drivers and a safer city to live in for the residents. This is also a good example of data-driven service providing, where the data creates a cheaper solution to serve the city. This system can eliminate the old-fashioned and expensive way of handling road maintenance where the city authorities had to wait for a failure or a complaint in order to be able to identify bad roads.
+
+### Computing on Batch Layer
+
+Batch layer precomputes the master dataset into batch views so that our presentation layer (Tableu) can query data and present at low latency. An high level overview can be seen in the picture:
+
+Since the batch layer runs different transformation on the entire master dataset to precompute our views and we assume that our dataset is growing over time we had to come up with a feasible solution to avoid massive performance cost.
+
+#### Recomputation and increamental
+Our big data solution supports both recomputation and incremental algorithms.
+
+* **Recomputation** - each time a new data is added to the master dataset the old views are deleted and recomputed on the entire master dataset. This task requires massive computational effort, which results in low latency but it's essential that we ensure data integrity.
+* **Incremental** - in contranst the incremental approach only process the new comming data and updates our views. This solution requires much less computational resources, and increase the effiency ouf our system, but requires more algorithm complexity.
+
+The key trade-offs between two approaches are performance and data consistency. The incremental approach provide additional efficiency, but we also partioned the storage layer, we can easily identify when our dataset get corrupted and run the batch computation on the slice of the master dataset. 
 
 
 ## Batch Procesing
@@ -92,29 +106,31 @@ We come across a form of data such as an unstructured *lane/edge* string. In ord
 ![alt text](./static/parse_edge.jpg "Edge/Lane semantic normalization")
 
 
+### Computing batch views
 
-### Computing on Batch Layer
+At this stage the data is ready to compute the batch views. The key point is the flexibility to run arbitraly functions in parallel on all the data.
 
-Batch layer precomputes the master dataset into batch views so that our presentation layer (Tableu) can query data and present at low latency. An high level overview can be seen in the picture:
+##### View1: Average Speeding (over time)
+As outlined earlier, the 1st batch view should identify the roads with the highest average speed. Therefore the view have to aggregate the "visits/journeys" for each road (edge/lane). If we would have a valid *timestamp* we could approach this problem with hourly, daily, weekly etc. granularities. Since we have normalized our dataset, it reduced the size of the data we have to traverse.
 
-Since the batch layer runs different transformation on the entire master dataset to precompute our views and we assume that our dataset is growing over time we had to come up with a feasible solution to avoid massive performance cost.
+Pipe Diagram of view1:
 
-#### Recomputation and increamental
-Our big data solution supports both recomputation and incremental algorithms.
+![alt text](./static/view1.jpg "View1")
 
-* **Recomputation** - each time a new data is added to the master dataset the old views are deleted and recomputed on the entire master dataset. This task requires massive computational effort, which results in low latency but it's essential that we ensure data integrity.
-* **Incremental** - in contranst the incremental approach only process the new comming data and updates our views. This solution requires much less computational resources, and increase the effiency ouf our system, but requires more algorithm complexity.
+##### View2: pedestrian-vehicle ratio
 
-The key trade-offs between two approaches are performance and data consistency. The incremental approach provide additional efficiency, but we also partioned the storage layer, we can easily identify when our dataset get corrupted and run the batch computation on the slice of the master dataset. 
+The 2nd batch view computes the pedestrian-vehicle ration for each edge. We compute the total number of visits for each domain - vehicle, pedestrians. Tracing each visit a pedestrian, vehicle made as they passed by an edge. After counting all the visits at each domain we simply dived the two fields and get the ratio results.
 
-### Pipe Diagrams of Views
+Pipe Diagram of view2:
+
+![alt text](./static/view2.jpg "View2")
 
 
-## Serving Layer
+# Serving Layer
 
-* Pipeline
-* How we store the views
-* Hive
+The serving layer serves the precomputed batch views. In our implementation we have used Apache Hive. Which enabled us to manage our views in a distributed manner. The key advantage of choosing Hive it's easible access to data via SQL and it's ability organizing tables into partitions. For example in our 1st view we are aggregating the entire data set to get the average speed at each edge point, but suppose we need to retrieve the average speed detail by a given timestamp. Hive allows to partitione the vehicle data with year, month, week, day etc. granuality which reduces the query processing time. 
+
+![alt text](./static/serving_layer.jpg "Serving Layer")
 
 
 ### LoadXML
