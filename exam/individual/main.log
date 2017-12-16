@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  16 DEC 2017 12:36
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  16 DEC 2017 18:06
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1378,55 +1378,62 @@ LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
 (Font)              scaled to size 10.0pt on input line 39.
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/b/n' will be
 (Font)              scaled to size 10.0pt on input line 39.
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
+(Font)              scaled to size 10.0pt on input line 44.
 LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 10.0pt on input line 58.
+(Font)              scaled to size 10.0pt on input line 48.
 Package microtype Info: Loading generic settings for font family
 (microtype)             `LinuxLibertineT-TLF' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 7.3pt on input line 58.
+(Font)              scaled to size 7.3pt on input line 48.
  (/usr/local/texlive/2017/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
 (/usr/local/texlive/2017/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
-) [1.1{/usr/local/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 58.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 58.
- (./main.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 58.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 58.
+)
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
+(Font)              scaled to size 7.3pt on input line 48.
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
+(Font)              scaled to size 6.2pt on input line 48.
+ [1.1{/usr/local/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
+(Font)              scaled to size 7.0pt on input line 80.
+ [2.2]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 80.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 80.
 
-
-Package rerunfilecheck Warning: File `main.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `main.out':
-(rerunfilecheck)             Before: CCB3161C4DBF48C3F1F6CE422C18448B;632
-(rerunfilecheck)             After:  DAA91D40E6D702C813657733383B7DCE;1377.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 58.
+(./main.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 80.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 80.
+Package rerunfilecheck Info: File `main.out' has not changed.
+(rerunfilecheck)             Checksum: DAA91D40E6D702C813657733383B7DCE;1377.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 80.
  ) 
 Here is how much of TeX's memory you used:
- 18928 strings out of 492995
- 279909 string characters out of 6132704
- 390303 words of memory out of 5000000
- 21964 multiletter control sequences out of 15000+600000
- 79007 words of font info for 96 fonts, out of 8000000 for 9000
+ 19050 strings out of 492995
+ 282858 string characters out of 6132704
+ 394306 words of memory out of 5000000
+ 21997 multiletter control sequences out of 15000+600000
+ 108378 words of font info for 153 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
- 60i,17n,94p,392b,600s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,17n,94p,785b,595s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/libertine/lbtn_76gpa5.enc
-}{/usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/libertine/lbtn_25tcsq.enc}
-{/usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/libertine/lbtn_jtta5h.enc}<
-/usr/local/texlive/2017/texmf-dist/fonts/type1/public/libertine/LinBiolinumT.pf
-b></usr/local/texlive/2017/texmf-dist/fonts/type1/public/libertine/LinBiolinumT
-B.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/libertine/LinLiber
-tineT.pfb>
-Output written on main.pdf (1 page, 180293 bytes).
+}{/usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/libertine/lbtn_7grukw.enc}
+{/usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/libertine/lbtn_25tcsq.enc}{
+/usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/libertine/lbtn_jtta5h.enc}</
+usr/local/texlive/2017/texmf-dist/fonts/type1/public/libertine/LinBiolinumT.pfb
+></usr/local/texlive/2017/texmf-dist/fonts/type1/public/libertine/LinBiolinumTB
+.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/libertine/LinLibert
+ineT.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/libertine/LinLi
+bertineTI.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/newtx/txsy
+s.pfb>
+Output written on main.pdf (2 pages, 246980 bytes).
 PDF statistics:
- 60 PDF objects out of 1000 (max. 8388607)
- 46 compressed objects within 1 object stream
- 10 named destinations out of 1000 (max. 500000)
- 20013 words of extra memory for PDF output out of 20736 (max. 10000000)
+ 97 PDF objects out of 1000 (max. 8388607)
+ 78 compressed objects within 1 object stream
+ 16 named destinations out of 1000 (max. 500000)
+ 30285 words of extra memory for PDF output out of 35830 (max. 10000000)
 

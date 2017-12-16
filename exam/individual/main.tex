@@ -25,7 +25,7 @@
   tabsize=2
 } 
 
-\setlength{\textfloatsep}{12pt}
+\setlength{\textfloatsep}{14pt}
 \setlength{\abovecaptionskip}{4pt}
 \setlength{\belowcaptionskip}{4pt}
 
@@ -41,13 +41,37 @@
 
 \section{Question 2 - Systems and Data Models }
 
-\textit{Alluxio} is a disparate in-memory storage system that provides high performance and reliability. It enables to manage and transform large datasets at memory speed. \textit{Alluxio} can be deployed as a middleware between Storage (HDFS) and Batch (computation) layer in the \textit{lambda architecture}. The new representation of the \textit{lambdaarchitecture} with \textit{Alluxio} is shown in figure.
+\textit{Alluxio} is a disparate in-memory storage system that provides high performance and reliability. It enables to manage and transform large datasets at memory speed. \textit{Alluxio} can be deployed as a middleware between Storage (HDFS) and Batch (computation) layer in the \textit{lambda architecture}. The new representation of the \textit{lambda architecture} with \textit{Alluxio} is shown in figure.
 
+To be able to compare our system architecture during projects and the architecture using \textit{Alluxio} we have to understand the different data processing approaches.
 
+Computation and data can be either co-located in the same cluster or can be decoupled. In our projects, we were given the first approach were computation and data is co-located, this approach avoids expensive data transfers and network I/O utilization. As \textit{Alluxio} tutorial\footnote{\url{https://www.alluxio.com/blog/getting-started-with-alluxio-and-spark}} states this scenario does not provide much performance benefits of \textit{Alluxio}. Therofe I believe using \textit{Alluxio} in our projects would not lead to any performance improvments.
+
+However in real production environments computation and data are more likely separated. The data is distributed over multiple data centers, therefore accessing data requires to transfer data from the remote data center to the computation data center, which introduces large network latency. Also HDFS uses spinning disks, therefore all the I/O operations, especially write, have high latency. This is the time when \textit{Alluxios} in-memory storage system comes in hand, which stores the frequently used data and allows memory speed acces. The following figure depicts the data operations with \textit{Alluxio}.
+
+As an example from \textit{Alluxio}\footnote{\url{http://alluxio-com-site-prod.s3.amazonaws.com/resource/media/Baidu-Case-Study.pdf}} if our environment was based on real production, \textit{Alluxio} system could be implemented the follwing way:
+
+\begin{enumerate}
+	\item A query or a batch process is submitted. The task is analyzed and the manager looks up if the data is already in \textit{Alluxio}.
+	\item If the data is already in \textit{Alluxio}, the task manager grabs the data from \textit{Alluxio} and performs the analysis according to the submitted task.  
+	\item If data is not in \textit{Alluxio}, it's called a cache miss, and the manager request the data directly from the remote HDFS. Meanwile, another job is submitted by \textit{Alluxio} manager which requests the data from the remote HDFS and stores the data in \textit{Alluxio}.
+\end{enumerate}
+ 
+ In our case, we could have the raw data stored in \textit{Alluxio} and immediatelly avaiblable at every iteration of the batch process. Moreover, after cleaning and normalization of the data we could store our views in memory, so that our presentation layer could start serve immediatelly and run many queries and much lower lattency. In contrast, in our Project 2, in order to avoid disk read/write operations, we used Spark to process the master dataset and temporarily cached the results in memory as DataFrame. But this approach is cumbersome, each time we modified our implementation we had to restart the Spark context which dropped the cached data and had to reaload the entire master dataset, which resulted in more downtime.   
+
+Benefits of using \textit{Alluxio} in the \textit{lambda architecture}
+\begin{itemize}
+		\item 
+\end{itemize}
 
 \section{Question 3 - Data Cleaning and Storage }
 
 \subsection{A}
+
+The actual process of data cleaning differed in both projects. In project 2 we have used the Spark SQL interface to clean the data and in project 3 we have moved to the Spark functional interface, therefore our methods for cleaning where not generalized, thus we could not reuse any cleaning process from project 2. Also both projects required a different validation constraints.
+
+However, a common data cleaning process in both cases was consolidating the empty or unknown values. We captured null, empty, or invalid values and we have assigned a custom value to repsesent as a missing piece of data.
+
 
 \subsection{B}
 
