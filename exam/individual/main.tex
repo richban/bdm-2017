@@ -74,7 +74,9 @@ However, a common data cleaning process in both cases was consolidating the empt
 
 
 \subsection{B}
+As a rule of thumb when designing a Big Data system, we want to ensure that we will be able to answer as many question as possible from the given data. Thefore storing the raw/unclean data is a better option. Mainly because, storing the rawest data allows to to maximize the ability to gain new insights that were not considered when exemining the dataset. On the other hand storing the raw data entails more storage requirements and more resources but generaly speaking in the big data ecosystem with technologies like \textit{Hadoop} it should be able to manage large amounts of data in a distributed, scalable manner. Also it is better to store the unclean data to master dataset, because the data cleaning process may improve or the requirements may broaden, therefore the data is subject to change over time.
 
+For example in project 3, we came accross to a form of unstructured data \textit{lane/edge} field, and our semantic normalization process could derive 4 other different information, if later on this normalization would improve we could perhaps derive knowledge more accurately and used that information for another purpose. By storing the cleaned data we would limit what the data can tell. 
 
 \section{Question 4 - Views and Applications }
 

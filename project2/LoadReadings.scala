@@ -11,29 +11,20 @@ import com.sun.tools.internal.ws.processor.model.java.JavaStructureType
 import org.apache.spark.SparkConf
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 
-case class Readings (did:String,
-										 readings:Array[(Array[(String,String,
-											 Double,Double,String)],Long)])
+case class Readings (did:String, readings:Array[(Array[(String,String,Double,Double,String)],Long)])
 
-case class ExplodedReadings (did: String,
-														 readings:(Array[(String,
-															 String,Double,Double,String)],Long))
+case class ExplodedReadings (did: String, readings:(Array[(String, String,Double,Double,String)],Long))
 
-case class FlattenedReadingsInput (did:String, cid:Array[String],
-																	 clientOS:Array[String], rssi:Array[Double],
-																	 snRatio:Array[Double], ssid:Array[String],
-																	 ts:Long)
+case class FlattenedReadingsInput (did:String, cid:Array[String], clientOS:Array[String], rssi:Array[Double],
+																	 snRatio:Array[Double], ssid:Array[String], ts:Long)
 
-case class FlattenedReadings (did:String, cid:String,
-															clientOS:String, rssi:Double,
+case class FlattenedReadings (did:String, cid:String, clientOS:String, rssi:Double,
 															snRatio:Double, ssid:String, ts:Long)
 
-case class MetaData (deviceName: String, upTime: String,
-										 deviceFunction: String, deviceMode: String,
+case class MetaData (deviceName: String, upTime: String, deviceFunction: String, deviceMode: String,
 										 did: String, location: String)
 
-case class Rooms (name: String, startDate: String,
-                  endDate: String, startTime: String,
+case class Rooms (name: String, startDate: String, endDate: String, startTime: String,
                   endTime: String, room: String, `type`: String,
                   lecturers: String, programme: String)
 
@@ -68,10 +59,10 @@ object LoadReadings {
 
 	def fullFlatten(df:Dataset[FlattenedReadingsInput]) : Dataset[FlattenedReadings] = {
 		df.flatMap(row => {
-	        val seq = for( i <- 0 until row.cid.size) yield { 
+	        val seq = for( i <- 0 until row.cid.size) yield {
 	        	FlattenedReadings(row.did, row.cid(i), row.clientOS(i), row.rssi(i), row.snRatio(i), row.ssid(i), row.ts)
 	        }
-	        seq.toSeq			
+	        seq.toSeq
 		})
     }
 
@@ -132,8 +123,6 @@ object LoadReadings {
 
     // View2 the average signal strength of users to an access point
     val view2 = spark.sql("SELECT did, cid, avg(rssi) as avg_signal_strength FROM time_series_location GROUP BY 1, 2")
-
-
 
   }
 }
