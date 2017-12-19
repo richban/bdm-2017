@@ -99,7 +99,7 @@ A possible \textit{Lambda Architecture} approach that faciliates real-time data 
 
 All new data (in XML format) is sent to both the batch layer and to the speed layer. In the batch layer, new data is appended to the master data set. The data is immutable and append-only stored on the storage layer. The batch layer precomputes the views continuously.
 
-\textbf{Storage Layer} as a storage system we could use \textit{HDFS}. However, in a cloud environment, many organizations do not operate \textit{HDFS} but use instead \textit{Amazon S3} as the storage backend. 
+\textbf{Storage Layer} as a storage system we could use \textit{HDFS}. However, in a cloud environment, many organizations do not operate \textit{HDFS} but use instead \textit{Amazon S3} as the storage backend\footnote{\url{https://databricks.com/blog/2017/05/31/top-5-reasons-for-choosing-s3-over-hdfs.html}}. 
 
 \textbf{Batch Layer} is achieved by \textit{Apache Spark} which's main function is to pre-compute the batch views.
 

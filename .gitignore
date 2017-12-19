@@ -11,3 +11,8 @@ metastore_db/*
 .idea/
 **/spark-warehouse/**
 *.log
+*.out
+*.png
+*.jpg
+*.lb
+/**/*.gz
