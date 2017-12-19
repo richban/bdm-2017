@@ -13,6 +13,7 @@
 \usepackage{float}
 \usepackage{wrapfig}
 \usepackage{subcaption}
+\usepackage{wrapfig}
 
 \lstset{
   basicstyle=\ttfamily,
@@ -84,4 +85,45 @@ For example in project 3, we came accross to a form of unstructured data \textit
 
 \subsection{B}
 
+A possible \textit{Lambda Architecture} approach that faciliates real-time data processing (streaming) is depicted in the following figure:
+
+\begin{wrapfigure}{r}{0.7\textwidth}[H]
+\begin{center}
+  \includegraphics[width=0.46\textwidth]{lambda_architecture.jpg}
+  \caption{A possible \textit{Lambda Architecture} approach that faciliates real-time data processing (streaming)}
+  \label{fig:lambda-architecture}
+\end{center}
+\end{wrapfigure}
+
+\newpage
+
+All new data (in XML format) is sent to both the batch layer and to the speed layer. In the batch layer, new data is appended to the master data set. The data is immutable and append-only stored on the storage layer. The batch layer precomputes the views continuously.
+
+\textbf{Storage Layer} as a storage system we could use \textit{HDFS}. However, in a cloud environment, many organizations do not operate \textit{HDFS} but use instead \textit{Amazon S3} as the storage backend. 
+
+\textbf{Batch Layer} is achieved by \textit{Apache Spark} which's main function is to pre-compute the batch views.
+
+\textbf{Serving Layer} indexes the batch views and provides interface to the pre-computed views so that can be queried. For this purposes \textit{Hive} is used to store the pre-computed batch views.
+
+\textbf{Speed Layer} in order to compensate the high latency of updates to the serving layer, \textit{Spark Streaming} is used to produce the realtime views. The realtime views are updated as data comes in, thus reusing the previous realtime views. The real-time views are always up-to-date and are stored in databases which requires random-read/random-writes.
+
+Queries are resolved by merging the batch and real-time views, which can be accomplised also by the \textit{Spark Framework}. Both batch layer and speed layer produces a table in the serving database. An user application can issue a query, which merges those results. The following figure summarize the idea:
+
+\begin{figure}[H]
+  \includegraphics[width=0.56\linewidth]{speed_layer.jpg}
+  \caption{Resolving queries by mergin \textit{batch tables} and \textit{speed tables}.}
+  \label{fig:speed-layer}
+\end{figure}
+
+The following figure shows a possible implementation of the given problem in real life. 
+
+\begin{figure}[H]
+  \includegraphics[width=0.66\linewidth]{implementation.jpg}
+  \caption{High-level overview of the architecture}
+  \label{fig:speed-layer}
+\end{figure}
+
+Real-time data flows to the system through \textit{Kafka} (service that can store and process stream of data). It then gets aggregted and stored in HDFS. Thus, all the historical data resides in the master dataset.
+
+\textit{Apache Spark} handles the batch computation. The pre-computed views are than stored in \textit{Apache Hive} with proper indexing. Due to the latency of the batch layer, the results from the serving layer are always out-of-date by few hours/minutes. Therefore this implementation includes a speed layer with \textit{Spark Streaming}, which digest the data from \textit{Kafka} and process the data. The processed real-time views are than pushed out to the \textit{Apache Cassandra} database. And lastly, the query layer is responsible for merging the batch and real-time views using the \textit{Spark API}. It allows to express SQL queries programmatically using the \textit{Spark SQL Interface}, also using more general purposes languages like \textit{Python, Scala, or Java}. Thus using complex analytical algorithms. 
 \end{document}
