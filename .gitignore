@@ -10,3 +10,4 @@ metastore_db/*
 /**/target/**
 .idea/
 **/spark-warehouse/**
+*.log
