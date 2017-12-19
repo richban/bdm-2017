@@ -1,0 +1,250 @@
+\documentclass[format=acmsmall, review=false, screen=true]{acmart}
+\settopmatter{printacmref=false} % Removes citation information below abstract
+\renewcommand\footnotetextcopyrightpermission[1]{} % removes footnote with conference information in first column
+\pagestyle{plain} % removes running headers
+\acmYear{2017}
+\acmMonth{12}
+
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{subcaption}
+\usepackage{dirtytalk}
+\usepackage{listings}
+
+\lstset{
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  frame=single,
+  breaklines=true,
+  postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+  aboveskip=10pt,
+  belowskip=5pt,
+  tabsize=2
+} 
+
+\setlength{\textfloatsep}{14pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{4pt}
+
+\author{Richard Bányi}
+\author{Israe Noureldin}
+\author{Islam Jabrayil Mastanov}
+\author{Soltan Reza Hoseini}
+\author{Thomas Roberts}
+
+\title{\textsc{Project Two} - Group 12}
+\subtitle{\textsc{IT University of Copenhagen, Autumn 2017}}
+\acmDOI{}
+\begin{document}
+\maketitle 
+
+\section{Introduction}
+Project 2 is a description of the process of designing an application for the IT University and our suggestions for different challenges, such as database architecture, technical approaches, as well as ethical challenges and suggestions for how to tackle them. Throughout the project, we describe the co-creation of this service from two different perspectives; a technical approach to design the service, followed by a critical perspective on the ethical issues that arise from Big Data Management and service design.
+
+\section{The data set}
+Each dataset can tell different stories depending on different factors, such as interpretation of the data, the way that the data is stored and gathered, the context of the data (because data is rhetorical and should always be considered in its context).
+
+Data is a representation; what it does represent, how data is stored, analyzed and interpreted, is important to consider. Storing data imposes structure, and they have to be stored in a particular way and that structure imposes a certain meaning. For example, we cannot store everything and it is not possible, so the decision of what to store consequently decides what not to store, and this missing data can shape the meaning of the data. So it is very important how one designs databases.
+
+What the dataset reveals is information about: the strength of the signal of devices connected to the each router; MAC addresses; dates; the different operating systems to which network devices are connected; room and class data; the detail of lectures held in that room; the movements of one particular person in ITU area. However, what is unknown about the data is how many devices one particular person connects to WiFi with, what they are doing while they are using the internet, and if these devices belong to students or staff. Therefore, the number of connections do not represent the number of people connected to the WiFi, but the number of devices connected to it.
+The dataset primarily consists of data about the routers and access points in the ITU building. It reveals specific information about each router and AP (access point) such as its location, Up Time (the amount of time it has been operational), name and did (device identifier). Using the routers did, the data regarding which clients connect to that specific router or access point is collected every 24 hours. This dataset contains did and information such as the timestamp, cid (MAC address of client’s device), clientOS (client’s operating system), the strength of their connection and ssid (which network they are connected to). These two datasets can reveal useful insights for stakeholders that use and maintain the facilities. It can tell for example the total amount of people connected to a certain AP hourly for each day. This could be very useful for maintenance staff to identify best times to perform their duties, and for facilities management, the times the building is less used in order to rent it out for functions. In real time a stream of this data is a pretty close approximation of how many people are at the location of that AP.
+
+However, when considering the different stories that the dataset can tell, there are different variables that we have to take into account. One such is that not every student is necessarily connected to WiFi (some don’t bring a PC). If we take for granted that the number of devices connected to the WiFi is equal to number of people present in the building, we create a standard that leaves out such students. If this standard creates some kind of value, we have to be aware of this group of people. For instance, if ITU creates some kind of infrastructure that relies on such data and forces every student to use ITU WiFi in order to use ITU services, we have to take a second to look at how this will impact different types of people. 
+Moreover, we need to take into account that people can bring multiple devices (i.e. personal and work computers, mobile phones) or switch between computers during the different semesters.
+
+\section{Appropriate architecture}
+
+\subsection{Storage for the master data set}
+The master data set is stored in a Hadoop Distributed File System (\textit{HDFS}). This allows our large set of data to be spread across multiple commodity machines on ITU’s server cluster whilst allowing us to interact with it as if it’s on one machine. \textit{HDFS} also allows us to adhere to the ‘moving queries, static data’ model whereby computations on the data are sent to the commodity machines, executed locally, and finally combined in a master node. This reduces the amount of data having to move around the network to answer a query.
+
+Each day a cron job is downloading the data from the source system and afterwards a Scala script is scheduled which appends the new data to \textit{HDFS}. The Scala script is just using the files-and-folders API of \textit{HDFS}, thus certain bugs and mistakes can easily happen. This indicated that using the \textit{HDFS} API directly is too low-level of an abstraction for such a task like managing large datasets. All kinds of operations and checks need to happen to correctly manage the dataset, thus moving to higher-level abstraction solutions that are not only scalable, fault-tolerant and performant, but elegant as well are a necessity in production environments. An alternative solution to our problem could have been solved with a library called Pail (dfs datastores). Pail keeps metadata about the dataset. By using metadata, Pail abstracts the low-level API and can significantly improve the management of a dataset without worrying about violating its integrity. However in our scenario, managing this small amount of data was easily achieved with the \textit{HDFS} low-level API.
+
+\subsection{Layers of the Lambda Architecture}
+
+We have implemented the storage layer \textit{HDFS} and the batch layer, serving layer. The batch layer is achieved using \textit{Apache Spark}. We carry out data manipulation and run queries via Spark scripts, and Spark automatically distributes the queries to \textit{HDFS} and returns the result. Batch and serving layer components of the lambda architecture satisfied the desired properties of our data system. Therefore we did not implement the speed layer as it would just add more new challenges and significantly more complexity to the batch computation. Using \textit{Apache Spark} as our batch process ensured low latency updates of our views. Once again, if our master dataset would potentially increase to petabytes we would consider implementing the speed layer to lower the latency of batch updates as much as possible.
+
+Before using \textit{Apache Spark}, we experimented with using \textit{Apache Drill} to extract, flatten and transform the data. We found it more difficult to work with deeply nested JSON files in \textit{Apache Drill} than \textit{Spark}, and so we opted to manipulate the data in \textit{Spark} using map, flatmap, and the \textit{Spark} Datasets interface. We took the output of these queries as our views and stored them on the local file system so that data visualisation tools such as Tableau could connect to them. This allowed non-technical users to slice and dice the views as they needed without interacting directly with the underlying architecture. \textit{Drill} is built to be extremely user and developer-friendly, so it poses a viable solution to implement a serving layer. This would give more power to the consumers of the data to create their own views on the fly rather than being restricted to simply querying our pre-generated views. However, we opted to try to store the output of the views in \textit{Hive} (with \textit{HDFS} as the storage layer) because its SQL-like interface allows users to easily query it, and there are APIs that let \textit{Tableau} connect directly to it for the presentation layer. During implementing this, there were issues with the server cluster that forced us to instead save the views locally to our computers as CSV files and connect \textit{Tableau} to these to visualise the data.
+
+\subsection{Sampling interval of the data}
+
+We analysed the data and found outliers, errors, and missing data (for example, certain fields (clientOS) in our dataset contained 247450 empty string values). Therefore, we come to the conclusion that it must be examined for data quality, completeness, and fitness of our service. 
+
+\subsection{Cleaning the data set}
+
+For simplicity, we designed logical data mappings with Spark that contains the data from the source system through to the desired target dataset, and the exact manipulation of the data required to transform it from the original format to our desired target format. 
+
+During the loading of the content of our \textit{JSON} files, we used the Spark Encoders to map columns (of the \textit{JSON} files) to fields (\textit{JVM objects}) by names, thus creating a Dataset with predefined primitive data types; for example, converting the date field to unix date format. We have also consolidated the empty or unknown values from the data source. We decided to leave them as they are, chiefly because we weren’t sure where these null or empty values came from, or if a domain constraint was not captured correctly in the source system. For that reason, we created custom transformations to capture null, empty, or invalid values instead of just leaving them as blank/invalid field. We assign a custom value (\say{unknown}) to represent a missing piece of data. Thus, we keep all invalid values in place to ensure data integrity and preserve the \say{real truth} of the data. We used flatmap to flatten the data and applied lambda functions with map on the dataset. Afterwards, the data was cleaned and transformed ready for the presentation layer. The figure below summarizes the exact pipeline of our solution.
+
+\begin{figure}[H]
+  \includegraphics[width=0.86\linewidth]{architecture.JPG}
+  \caption{Architecture Pipeline}
+  \label{fig:main-diagram}
+\end{figure}
+
+\subsection{Batch Processing}
+Our key batch processing tool is the \textit{Apache Spark} framework. It’s a fast large scale data processing engine. We are heavily relying on the Spark Dataset interface which provides the benefits of \textit{RDD’s}, for example strong typing and the ability to use lambda functions. A dataset is constructed during the load function and then we make various manipulations using functional transformations like map and flatMap to achieve the desired data format. At each step of the dataset transformation we’re creating a new dataset with our predefined custom interfaces. Using Scala’s case classes we’re able to describe the contents of the rows, while benefiting from Scala’s type checking. This helped us to spot errors at an early state and write queries with compile time safety. All of the custom case classes that were implemented are:
+
+\begin{lstlisting}[language=scala]
+case class Readings (did:String, readings:Array[(Array[(String,String,Double,Double,String)],Long)])
+
+case class ExplodedReadings (did: String, readings:(Array[(String, String,Double,Double,String)],Long))
+
+case class FlattenedReadingsInput (did:String, cid:Array[String], clientOS:Array[String], rssi:Array[Double], snRatio:Array[Double], ssid:Array[String], ts:Long)
+
+case class FlattenedReadings (did:String, cid:String, clientOS:String, rssi:Double, snRatio:Double, ssid:String, ts:Long)
+
+case class MetaData (deviceName: String, upTime: String, deviceFunction: String, deviceMode: String,did: String, location: String)
+
+case class Rooms (name: String, startDate: String, endDate: String, startTime: String, endTime: String, room: String, `type`: String, lecturers: String, programme: String)
+\end{lstlisting}
+
+After all the desired flattening operations and cleaning, the data was ready to compute the batch views. The key objective was to ensure flexibility when computing the views. Therefore we denormalized our datasets and use the Spark SQL interface to create our views.
+
+
+\begin{figure}[H]
+  \includegraphics[width=0.86\linewidth]{batch_process.JPG}
+  \caption{The specific algorithms and data processing transformation on the raw dataset}
+  \label{fig:main-diagram}
+\end{figure}
+
+\newpage
+\section{Mock-up for the services}
+The three views that we have created, and their uses, are:
+
+\subsubsection{Average number of connections to an access point}
+
+This view would provide an invaluable service to students to get a feel for when the busy/quiet times of day are so that they can plan their study sessions accordingly. Similarly, IT staff can expect increased load on the network and plan contingencies to cope with the demand.
+
+The output can be visualised using Tableau. Figure 3 shows the days of the week (subdivided into hours of the day) on the horizontal axis, against the average number of connections on the vertical axis.
+
+\begin{figure}[H]
+  \includegraphics[width=\linewidth]{image7.PNG}
+  \caption{The average number of connections, per weekday and hour}
+  \label{fig:main-diagram}
+\end{figure}
+
+The first thing to note is the scale of the y-axis. This chart indicates that the peak average number of simultaneous connections is 10 which clearly seems incorrect. Looking at the data, we think that this could be because this takes the average across all access points across the university for a particular hour. Due to the layout of the university, certain locations get significantly higher amounts of traffic than other locations. For example, the location with the highest average number of connections (Auditorium 2) has 19 times more connections than the lowest average (Library). When taking the arithmetic means using values with such a large range, the results may get skewed and seem unrealistic. Alternatively, one could look at the same chart showing the total number of connections rather than the average, as shown in Figure 4. However, the distribution of data is very similar with the exception that the peak number of connections on Monday and Tuesday are higher than other week days.
+
+\begin{figure}[H]
+  \includegraphics[width=\linewidth]{image6.PNG}
+  \caption{The total number of (non-distinct) connections, per weekday and hour}
+  \label{fig:main-diagram}
+\end{figure}
+
+It is clear that there is a peak of activity during work days, starting at approximately 08:00 and ending at approximately 19:00. On Fridays, the curve does not decline as steeply as other week days, presumably due to the people still being at the university during ScrollBar. There is also a sharp increase around 01:00 on Saturday at the location named \say{ScrollbarSyd / 0E05}, which also correlates with when ScrollBar usually closes - perhaps this is people using their phone to find how to get home, or communicate with their friends. In contrast, the average number of connections on the weekend remains roughly the same but there is quite a shallow rise between 11:00 and 17:00 on Saturday and Sunday (in the order of 0.5 to 1 more average connections). It is interesting to note that there appears to be a baseline of connectivity of around 2 devices, regardless of the day or time. We are unsure what these devices could be but most of these connections appear in locations named \say{Level0-wire-south} and \say{1C08u}. Perhaps these devices are some desktop PCs left powered on, or some internet-connected devices in student or research projects.
+
+Another way to look at this view is to look at the average number of connections for each location at ITU. For example, if a group of students are planning where to study as a group, and want to meet at 12pm on a Monday, they can filter the view down to this time/day. This service would show that AUD2/0A35 is the worst place to connect, and 1A05 is the best (based on the average number of connections). This view would become even more powerful with a lambda architecture that is being fed near-real time data to provide the most up-to-date suggestion of the best place to connect.
+
+\begin{figure}[H]
+  \includegraphics[width=\linewidth]{image5.PNG}
+  \caption{Average number of connections on Mondays at 12pm, sorted in ascending order of average number of connections.}
+  \label{fig:main-diagram}
+\end{figure}
+
+\subsubsection{Person Tracker}
+
+The next view aims to track a device around the ITU building. There are several ethical problems created by this view. One such is if it is assumed that a device represents a person (which it may not necessarily), this could allow the ITU staff to know exactly where a person is likely to be at any given time. If they had a suspicion that a particular client was consuming an abnormally high amount of the university’s bandwidth, they could correlate secondary data sets (such as network information) with this view to detect exactly who the person is, or at least where they are likely to connect from. Similarly, one could join this view with data showing which classes are occurring at a given location to deduce which person a client ID may represent. This would allow you to know when a person is likely to be at ITU and not at home, and potentially use this knowledge in a dishonest way.
+
+\begin{figure}[H]
+  \includegraphics[width=\linewidth]{image3.PNG}
+  \caption{The number and location of connections from Client ID \textit{0a3a34c06ef818f307081084a8e120e7075f0eff0c96d1ea2982640aca9c6ab6}, per weekday and hour}
+  \label{fig:main-diagram}
+\end{figure}
+
+\subsubsection{WiFi Signal Strength}
+
+Our final view concerns the strength of the WiFi connections. The main purpose of this view is for ITU staff to view the average strength of connections for each location. If this is weak, it could warrant installing a new access point to allow clients to connect to a closer access point to get a stronger connection. Figure 4 shows that 5A07 has an average strength of -44.42 whereas 5C10u has an average strength of -77.47, indicating that the former has the strongest connection and the latter has the weakest connection.
+
+\begin{figure}[H]
+  \includegraphics[width=\linewidth]{image2.PNG}
+  \caption{The average signal strength \textit{RSSI}, per location}
+  \label{fig:main-diagram}
+\end{figure}
+
+\subsection{Use cases for such data (like a real application)}
+The timestamps in the data set is not in real time, but if we change that and feed the data into a real time-based application, we can develop a service based on this data for different purposes and provide a variety of services to stakeholders such as students, facility managers, lecturers, administration, and study board faculty.
+
+For instance for students, this application can show which rooms are occupied. Thus, when students need a quiet place to study or do group work, they won't have to go around physically trying to find an unattended place. Such an app could also show trends of busy and quiet periods of each floor per day of the week and time period i.e. morning/afternoon etc. This will minimise the time spent finding the right place given the preference of the people, be it a quiet classroom, or a skybox.
+
+For facility managers, access to this data can be used for energy consumption purposes or improving the facility services, perhaps the WiFi; in this case, they can evaluate different access points and see if there is a need to improve certain areas if it is a very populated spot. Additionally, the app can be used for cleaning services in order to view which places are occupied to prioritise the process.
+This application could provide insights into which courses are well-attended, by revealing the most or least attended courses. This could give the board members a statistical impression of whether the location of the lectures is in accordance with the attendance.
+
+In terms of course evaluation for board members or teachers, this service can be a part of the evaluation process to evaluate different lectures and TA sessions. This could provide an insight into students’ attendance for evaluation purposes, if the lecture or TA session structures may need a reconstruction. 
+
+\section{Impact Analysis}
+
+We start this section by talking about the winners and losers of the selected scenario. We start by defining \say{losing}: if data is a person, (\textit{Zook 2017}) this means that by giving away our personal data we are giving away a part of ourselves and our privacy, and whoever has access to the data can have power over that part of us, because data can be aggregated and aggregation is a different sort of power (Kitchin 2014).
+
+If we look at the situation from the perspective of ‘data is power’, the students are the losers in this situation, and the parties who control the data are the potential winners. However, by receiving a useful service, this relation could be balanced out because data is the price to pay for most of the free digital services we use. Although the real MAC address is encrypted and the owner of the PC can’t be identified, introducing a new data set that can give us more info about the MAC addresses could mean that these people could be identified.
+According to General Data Protection Regulation (\textit{GDPR}), we have to ask for consent if we are going to process personal data. We have to specify how we process this data, who will have access to the data, and what the data can be used for (Baker \& McKenzie 2016).
+
+Through the \say{Terms of service}, we need to ask for consent to use personal data. However, if ITU argues that the data is a part of their provision of service, then under GDPR there is no need to ask for consent.
+Moreover, we need to investigate how all of the parties might have access to such data, and how all of the stakeholders in this project might visualize the data flow. Additionally, we need to evaluate the security measures concerning the layers of security of the databases.
+
+However, some of the services provided by the suggested application can create some complications if they are implemented. One service could be to develop an application to evaluate the attendance in each course based on the number of internet connections in each room. As we discussed before, the number of connections doesn’t necessarily represent the number of people, but a service based on this wrong assumption could be used for evaluation purposes by board of members.
+
+If we have a service that shows the attendance at each room/lecture, and these insights are used for course evaluation by the board of members, what happens then if one teacher asks students to close their computers during the lecture? (this is a personal experience that has happened to one of the group members). This system will clearly have some incorrect results. So we have to remain aware of the decisions we make for designing systems, to avoid such services being based on subjective assumptions.
+
+\section{Uncovered ethical issues}
+
+We have discussed that if this data is used to track a particular person’s location/time each day, outlier detection could see if a person deviates from their normal schedule. This could be a breach of privacy and a very serious legal and ethical issue because these data can be used as a means of surveillance to check up on students or teachers. 
+
+We have previously discussed that according to \textit{GDPR} we need to ask for consent to be able to store and process data that are related to individuals. However, according to \textit{GDPR}, there are alternatives for consent. \say{An organisation should choose the lawful basis that most closely reflects the true nature of its relationship with the individual and the purpose of the processing} (Lexology 2017). If ITU (which is a public institution) argues that the data is a part of the provision of service that they provide, they are exempted from asking consent from students to process their data (Information Commissioner's Office). Under such circumstances, the students whom are not willing to participate and to use this application, are forced to give away their data, and the compromise would be not having access to WiFi. Here again is where a flawed standard can be formed to discriminate a particular group of people that might be more concerned with sharing personal data than others. In the contemporary society, providing access to the internet for students is a very vital service but not providing it can block the development of educational institutions and systems, especially in a country like Denmark, where internet is a necessity rather than an asset. As we have discussed at one of the seminars, Big Data Management systems create their own standards which create behavior that we have to be aware of (Lampland and Star 2009). So what can be done here, is to separate the use of this service (application) and the access to the Internet. For example, if students need to use this application and the services provided by it, they give away their information without consent. If they prefer not to use the service, they still can use WiFi and have the option to ask for not storing their data. 
+
+Another approach would be to minimise the time for storing data, according to \textit{GDPR}, even if ITU argues that the data is needed for providing the service as a public interest, they still need to clarify for how long they store the data. The data loses value over time and could also pose a risk against the privacy of individuals. So by law and by business interests, ITU has to make a framework for data retention and must make sure that they are technically capable of complying with their retention policy (Mercurytide 2017).
+
+However, if the system operates based on asking for users’ consents, one challenge that can arise from this is that those who do not give consent are not included in the service. For example, if 90\% of students won’t give consent, then we have a service based on a very limited amount of data - data that clearly doesn’t represent the actual number of people. As for now, we do not have a solution to this problem, but we of course acknowledge that it as an issue that could occur and could lead to further discussion.
+
+In a hypothetical situation, if we scale up the project (ITU as Copenhagen), if such data is breached, that could reveal a great amount of information about people. It may reveal a pattern of behaviour based on their calendars, daily activities and places they visit, their home locations etc. That is a great challenge, both in terms of ethical issues as well as \textit{GDPR.}
+As we have previously mentioned, we have to acknowledge that data are people and can do harm to people (Zook 2017), therefore we are accountable to avoid such instances and design a system that provides a safe and secure service to students and people visiting ITU that might connect to the WiFi. 
+
+\section{Conclusion}
+For this report, we don’t have the place to cover more areas regarding \textit{GDPR}, but basically we have to take \textit{GDPR} as a package and implement it onto the process of designing the services.
+Moreover, with the arrival of \textit{GDPR}, discussing privacy and other ethical issues is more of a necessity than a morality. But this does not mean that there has to be a law to enforce ethical consideration into system design, but designers and managers need to go beyond that and take it as a morality rather than an obligation.
+
+\section{Reflection/Log}
+
+We have gone through a collaboration that included two different groups of people with different approaches towards the same product and service, and we have tried to go forward together while keeping up the balance between these two approaches. However, we have faced different challenges along the way, especially regarding the technical approaches toward fulfilling the requirements of the project.
+
+Nevertheless, this exercise is a good reminder that designing services needs to include different perspectives to design a better service. It indicates that one needs to look at the same object through different lenses to cover issues that might go unnoticed. 
+
+The main technical challenge we have faced in this project was to actually run Spark applications on the server cluster. There have been numerous known issues with the cluster that slowed down the progress of our work. Therefore, we were forced to run the batch computations locally without the support of the clusters computing system. Programmatically speaking, we struggled to write nice and clean functional program, even though later on we were given examples of how to flatten the data.
+
+\newpage
+\begin{thebibliography}{9}
+\bibitem{baker} 
+Baker \& McKenzie (2016). Consent under the GDPR.
+\\\texttt{http://globalitc.bakermckenzie.com/files/Uploads/Documents/Global\%20ITC/13\%20Game\%20Changers/BM-Consent\%20under\%20the\%20GDPR.pdf}
+ 
+\bibitem{ico} s
+Information Commissioner’s Office: Lawful basis for processing
+\\\texttt{https://ico.org.uk/for-organisations/guide-to-the-general-data-protection-regulation-gdpr/lawful-basis-for-processing}
+ 
+\bibitem{stallman} 
+Stallman, R. (2008). Cloud computing is a trap, warns GNU founder Richard Stallman\\\texttt{https://www.theguardian.com/technology/2008/sep/29/cloud.computing.richard.stallman}
+
+\bibitem{kitchin} 
+Kitchin R. (2014) The Data Revolution. SAGE Publication
+
+\bibitem{zuboff} 
+Lampland, M. \& S.L. Star (2009), Standards and their Stories: How Quantifying, Classyfing, and Formalizing Practices Shape Everyday Life
+
+\bibitem{datax} 
+Lexology (2017). Consent under the General Data Protection Regulation: what are the alternatives for employers?
+\\\texttt{https://www.lexology.com/library/detail.aspx?g=f1c72201-95a0-4296-bf52-4a497e1874f}
+
+\bibitem{haddadi} 
+Mercury Tide (2017). Does your retention policy comply with the GDPR?
+\\\texttt{https://www.mercurytide.co.uk/blog/article/does-your-retention-policy-comply-gdpr/}
+
+\bibitem{goldberg} 
+Zook, M. (2017) Ten simple rules for responsible big data research.
+
+\end{thebibliography}
+
+\end{document}
