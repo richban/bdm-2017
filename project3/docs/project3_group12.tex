@@ -1,0 +1,338 @@
+\documentclass[format=acmsmall, review=false, screen=true]{acmart}
+\settopmatter{printacmref=false} % Removes citation information below abstract
+\renewcommand\footnotetextcopyrightpermission[1]{} % removes footnote with conference information in first column
+\pagestyle{plain} % removes running headers
+\acmYear{2017}
+\acmMonth{12}
+
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{subcaption}
+\usepackage{dirtytalk}
+\usepackage{booktabs}
+
+\lstset{
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  frame=single,
+  breaklines=true,
+  postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+  aboveskip=10pt,
+  belowskip=5pt,
+  tabsize=2
+} 
+
+\setlength{\textfloatsep}{14pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{4pt}
+
+\author{Richard Bányi}
+\author{Israe Noureldin}
+\author{Islam Jabrayil Mastanov}
+\author{Soltan Reza Hoseini}
+\author{Thomas Roberts}
+
+\title{\textsc{Project Three} - Group 12}
+\subtitle{\textsc{IT University of Copenhagen, Autumn 2017}}
+\acmDOI{}
+\begin{document}
+\maketitle 
+
+\section{Introduction}
+
+Copenhagen’s population is expected to grow from 583,000 in 2017 to 715,000 in 2030 (World Population Review 2017). This growth means a growth in traffic, and that transportation in the city will be more complicated to deal with for city governors. Emergency services are also a part of this complication and need to be planned carefully. With the data provided to us as students, we take up the role of emergency management and the team responsible for improving the incident and emergency response service in Copenhagen. Our aim is to look at the data, and by having an overview of the city’s traffic, to provide a solution to develop a plan to increase the safety of pedestrians and drivers in the city.
+
+\section{The Pitch}
+Our solution is a package of three different proposals for the city in order to make an impact on preventing or reducing the number of road incidents, which results in a safer city.
+
+Our plan is to place speed cameras across the city in different places where they could increase safety for drivers and pedestrians. Additionally, we are suggesting to create car-free zones in places where the congestion of cars and pedestrians is high. Lastly, we prioritize the roads that are the most driven for repair and maintenance, which leads to fewer car accidents occurring due to bad roads. We see great potential in increasing the safety of Copenhagen residents if we implement this plan.
+
+This package can impact the city in positive ways, the impacts could be mentioned as: reducing air pollution in the inner city and distributing the pollution across the city so we have a more livable city; creating cultural areas where people gather for different activities that could lead to better economic conditions and to facilitate more tourists to visit the city for attractions such as Strøget; investing less human and capital resources to identify bad roads that could pose a danger for drivers; monitoring driving habits of drivers in order to minimize the risk of road incidents because of speeding behavior by placing speeding cameras on a network of roads across the city. All in all, our solution will provide tools that leverages traffic data to bring laser focus to the city’s efforts, and enable it to work more pro-actively and effectively rather than just reactionary. This could save the city a significant amount of resources that could be spent on other areas where there is a lack of human and capital resources. The city can become safer, less polluted and more livable, and a cultural place that is more attractive to tourists.
+
+\section{Our Goals}
+We initially decided to focus on improving the emergency call response times, but along the way, we shifted our direction to focus mainly on preventing incidents from happening rather than providing more efficient emergency services. Of course the emergency services will be functioning as they are now, but our efforts aim for a future where emergency services get paid with no work, that is the ideal future provided by this service.
+
+We have identified some potential areas of improvement and investment that would result in increased safety for the city residents. By looking at the data, we have identified three major areas (three views) for the improvement of safety.
+
+\section{Three Views}
+\textbf{View 1: Identify the roads with the highest average speed to place speed cameras:}
+Installing speed cameras (traffic enforcement cameras) on high-speed roads to monitor driving and speeding habits is a way to control drivers and reduce the risk of speeding offences which could lead to more serious incidents. Our strategy is to identify these roads/streets and have an overview of the areas that could pose more risk to both pedestrians and drivers to be able to make this plan go forth.
+
+\textbf{View 2: Identify roads with the highest pedestrian/vehicle ratio:}
+This view provides an overview of which areas are most concentrated with people and vehicles in order to have a map of streets that are going to be allocated as only pedestrians, like Strøget in Copenhagen. So basically we are identifying new streets to add to the pedestrians-only club. Pedestrianised streets are very useful to communities in terms of culture and tourism, as well as giving people more freedom for shopping. The success story of Strøget can pave the way for some other places to function car-free.
+
+\textbf{View 3: Identify the ‘most travelled’ roads:}
+Damaged roads could lead to road accidents (Washington Post 2009). These cases could be fatal for the passengers as well as expensive for the state if the victims file lawsuits (Mirror 2017). Our third view is to minimize the risk of car accidents due to poor road conditions. The strategy here is to identify the most driven/used roads and prioritize road maintenance based on this data. This can be a very fast and efficient way to provide a better service for drivers and a safer city to live in for the residents. This is also a good example of data-driven service providing, where the data creates a cheaper solution to serve the city. This system can eliminate the old-fashioned and expensive way of handling road maintenance where the city authorities had to wait for a failure or a complaint in order to be able to identify bad roads.
+
+\section{The Data}
+The data-set available to us is about the movements of natural persons and vehicles within the city of Copenhagen. However, the data is not related to actual people in Copenhagen, it is the result of trips randomly generated by a simulation toolbox named \textit{SUMO}.
+
+However, the data set could be a pseudonymised data set (if it was from the movements of actual citizens of Copenhagen) since the direct identifiable attributes are replaced by vehicle and person ID. \say{Pseudonymization is the separation of data from direct identifiers so that linkage to an identity is not possible without additional information that is held separately} (IAPP 2016).
+
+With \textit{GDPR} around the corner, we have to be cautious about the data related to identity of natural persons. Such datasets could reveal the movements of natural persons, and if not handled carefully, could result in an invasion of citizens’ privacy.
+
+Additionally, we have to ba cautious with \textit{GDPR}, we are not able to comply with \textit{GDPR} without considering data minimization and data retention policies. Regardless of the type of data, and anonymised or pseudonymised, we have to specify what kind of data we need, for what purposes we are collecting the data, and after processing them, for how long the data needs to be stored and kept. GDPR stricts entities personal data for a long period of time, and imposes a framework for institutions (public and private) and companies to have a clear policy regarding this issue. The next consideration is that we have to make sure we have technical capabilities to comply with our data minimisation and retention. Under \textit{GDPR}, personal data are not to be owned, but to be loaned. (Mercurytide 2017)
+
+The attributes shared between the classes includes: location, timestamp, speed, and position. However the specific attributes for the vehicle are vehicle ID, latitude and longitude (x and y), speed, angle, position and lane. We have removed attribute for the \textit{vehicle\_type} since it contained the same value for all values. There is no value in \textit{vehicle\_z} and \textit{person\_z}. \textit{vehicle\_angle} and \textit{person\_angle} represent which direction the traffic is facing, but they were not used in any of our views, therefore they are not taken into account. Furthermore, the values for \textit{vehicle\_slope} and \textit{person\_slope} is zero and therefore are removed while processing the data.
+
+The latitude and longitude is the geographical position of the car in the city, and we assume the position is the specific position of the car on a particular road, where the lane attribute is a combination of the road identifier and the specific lane of the road.
+
+For the natural persons, the attributes are person ID, latitude and longitude, angle, speed, position and edge. Latitude, longitude and speed are the same as vehicle attributes, but lane defines on which lane of the edge the person is moving and edge refers to the road.
+
+\subsection{Limitation of the data-set}
+There are a number of factors that we have to take into account before starting to process the data-set. As mentioned earlier, the data-set is about the movements of simulated people and vehicles in the city. However, we don’t have any information about whether there are several people in a car or only one person which is the driver.
+
+We cannot know the population of the city from the data-set, because we don’t know if the data-set represents all residents of Copenhagen or not (even though it is a simulation). This specific piece of information is important because it matters to know if the data-set is including the whole picture of the traffic or just a portion of it. Lack of this information could affect the way we picture the city traffic and ultimately could reflect on the picture we have from the city traffic overall.
+
+The captured data is a representation of the reality, and the way data are gathered, stored, structured and processed imposes certain limitations i.e. leaving out some attributes of the data (Gitelman and Jackson 2013). As it is described in the project 3 description, the data set we have is the result of a simulation, plus a series of data processing steps that has led to the current data-set. What we are provided with is the result of this process and therefore we are working with a data set that does not reflect the whole picture. This limitation does not stop us from processing and analyzing the data, but we need to be aware of these limitations and consider them when proposing a new system.
+
+Our evaluation of the traffic situation and mobility as well as our proposals to solve the challenges introduced, could have been more precise if we had data sets which were captured from the movements of actual people in the city, and maybe a statistics of car accidents on each road.
+
+\section{Storage Layer}
+
+Before digging into the technical details of the storage layer, we agreed upon the most important goals of our architecture. We had to engineer that our master data set is absolutely corruption proof and fault tolerant which is the most essential part of the Lambda Architecture. The main components of the master dataset are: the data model, and how the data is physically stored. We started by learning the key properties of the data.
+
+The data comes from the operational systems in \textit{XML} format on a daily basis. When designing our Big Data service, we wanted to ensure that we will be able to answer as many questions as possible. Therefore, we are storing the rawest data. Storing raw data allows us to maximize our ability to gain new insights that were not considered when examining the dataset. We understand that raw data entails more storage requirements and more resources but our service is designed using big data technologies (\textit{Hadoop Stack}) that are able to manage large amounts of data in a distributed, scalable manner.
+
+\begin{lstlisting}[language=xml]
+<timestep time="1.00">
+       <vehicle id="0" x="12.537488" y="55.663405" angle="-18.966962" type="DEFAULT_VEHTYPE" speed="1.673759" pos="6.773759" lane="27409327_0" slope="0.000000"/>
+\end{lstlisting}
+
+There are number of different possibilities of how to represent data within the master dataset. Given our limited time and resources we have chosen for simplicity to store the data as we receive it originally in \textit{XML} format. However, we recommend the fact-based model, which is similar to data warehouse models, where the data is deconstructed into units called facts. Facts are atomic, they can’t be subdivided further.
+
+It provides a simple expressive representation of data. With a fact-based model, we would have gain numerous advantages. For instance it supports the evolution of the kinds of data stored in the master dataset, because the data from the source may change over the time. This is a crucial property as it would have added whole new capabilities to our system, because the \say{business} requirements might change and we would need to add new kinds of data and handle these changes as effortlessly as possible.
+
+One of the key advantages of representing the data in the master dataset is using schemas, as we experienced when implementing the storage layer. The goal was to easily and effectively manage a large (growing) dataset. First we have decided for simplicity to use the low-level \textit{HDFS} API to manage our storage layer. Although we haven’t done any denormalization for performance issues we exploited the files and folders abstraction to improve storage of the master dataset with vertical partitioning. Vertical partitioning enabled large performance gains, we can access data that is relevant to the computation, and therefore we don’t need to access the entire dataset. Vertical partitioning of data is done by sorting the data into separate folders in the distributed file system.
+
+\begin{figure}[H]
+  \includegraphics[width=0.76\linewidth]{static/image12.JPG}
+  \caption{Vertical Partitioning}
+  \label{fig:verticalpartitioning-diagram}
+\end{figure}
+
+Using the \textit{HDFS} API directly is too low-level of an abstraction for such a task like vertical partitioning and data manipulation in production environments. All kinds of operations and checks need to happen to correctly manage the dataset, thus we have moved to higher-level abstraction solutions which are not only scalable, fault-tolerant and performant, but elegant as well are a necessity.
+
+An alternative solution to our problem has been solved with a library called Pail (dfs-datastores). \textit{Pail} keeps metadata about the dataset. By using metadata, Pail abstracts the low-level API and allow us to significantly improve the management of a dataset without worrying about violating its integrity.
+
+That concludes the storage layer. Moving towards higher abstraction libraries like Pail we could easily manage the dataset on a distributed file system (\textit{HDFS}), while isolating it from the details of the filesystem and violations of the dataset integrity.
+
+In comparison we could have used a different system store to store our data. The most common option for storing cloud data is object storage. \textit{HDFS} is a file storage system. Files are placed into folders and organized by naming conventions. File systems are presented as a hierarchy of directories, subdirectories and files as in our case. Conversely, object storage organizes unstructured data as objects in different locations, and each object has a unique identifier and metadata which is significantly greater than file metadata. Object storage overcomes many limitations that a file storage system faces. For example, it scales much better, you can keep adding data infinitely. However in our case, \textit{HDFS} is still suitable since our data set is not growing, but it is still capable of potentially scaling up to millions of files. Moving from file storage to object storage would make sense if the number of files grows into billions or trillions.
+
+Once again, if we could assume that our data set is growing significantly, we could use the storage system provided by Amazon. \textit{Amazon S3} is an object store. It is also much more flexible than \textit{HDFS}. \textit{S3’s} availability and durability is far superior to \textit{HDFS’s}. One advantage \textit{HDFS} has over \textit{S3} is performance, since with \textit{S3} the data is no longer local and all reads need to transfer data across the network. However, a big benefit with S3 is that (unlike \textit{HDFS}), we can separate the storage from the computation so we could store all the data in \textit{S3} and it automatically scales up - we don’t have to manage the storage and can instead focus on scaling up the computation. This decoupling of computation and storage would allow one to run different \textit{Spark} tasks on their own clusters. A more straightforward side-by-side comparison of \textit{S3} and \textit{HDFS}\footnote{\url{https://databricks.com/blog/2017/05/31/top-5-reasons-for-choosing-s3-over-hdfs.html}}.
+
+\begin{table}[H]
+\centering
+\caption{Side-by-side comparison of \textit{S3} and \textit{HDFS}}
+\label{my-label}
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{}                     & \textbf{Amazon S3} & \textbf{HDFS}       & \textbf{Amazon S3 vs HDFS} \\ \midrule
+\textbf{Elasticity}           & Yes                & No                  & S3 is more elastic         \\
+\textbf{Cost/TB/month}        & \$ 23              & \$ 206              & 10x                        \\
+\textbf{Availability}         & 99.99\%            & 99.9\%(estimated)   & 10                         \\
+\textbf{Durability}           & 99.999999999\%     & 99.999\%(estimated) & 10x                        \\ \midrule
+\textbf{Transactional writes} & Yes with DBIO      & Yes                 & Comparable                
+\end{tabular}
+\end{table}
+
+
+
+\section{Batch Layer}
+
+The batch layer precomputes the master dataset into batch views so that our presentation layer (\textit{Tableau}) can query data and present it at low latency.
+
+Since the batch layer runs different transformations on the entire master dataset to precompute our views, and we assume that our dataset is growing over time, we had to come up with a feasible solution to avoid massive performance costs.
+
+\subsection{Recomputation and incremental updates}
+
+Our big data solution supports both recomputation and incremental algorithms.
+
+\begin{itemize}
+		\item \textbf{Recomputation} - each time new data is added to the master dataset, the old views are deleted and recomputed on the entire master dataset. This task requires massive computational effort, which results in high latency, but it's essential that we ensure data integrity.
+		\item \textbf{Incremental} - in contrast, the incremental approach only processes the new, incoming data and updates our views. This solution requires much less computational resources, and increase the efficiency of our system, but requires more algorithm complexity.
+\end{itemize}
+
+The key trade-offs between the two approaches are performance and data consistency. The incremental approach provides additional efficiency, but because we also partitioned the storage layer, we can easily identify when our dataset gets corrupted and run the batch computation on the slice of the master dataset.
+
+\subsection{Batch Processing}
+
+We designed the batch layer that loads data from the storage layer (\textit{HDFS}), enforces data quality, consistency, and delivers our views into serving layer, as follows:
+
+\begin{figure}[H]
+  \includegraphics[width=0.56\linewidth]{static/image3.JPG}
+  \caption{Batch Processing Overview}
+  \label{fig:verticalpartitioning-diagram}
+\end{figure}
+
+\subsubsection{Flattening}
+
+The following pipe diagram depicts the specific algorithms and data processing transformation:
+
+\begin{figure}[H]
+  \includegraphics[width=0.56\linewidth]{static/image1.JPG}
+  \caption{Flattening Pipe Diagram}
+  \label{fig:verticalpartitioning-diagram}
+\end{figure}
+
+\subsubsection{Semantic Normalization}
+We come across a form of data such as an unstructured \textit{lane/edge} string. In order to get as much knowledge as possible, we used semantic normalization to reshape the unstructured \textit{lane/edge}. This is a function that takes the lane or edge as string and normalized it to (\textit{movement, edge, edge type, edge lane}). Even this simple semantic normalization may have not be 100\% correct since our (meta) information about this data field is vague, later on we can improve our algorithm and run the batch recomputation. The following diagram describes the function:
+
+\begin{figure}[H]
+  \includegraphics[width=0.36\linewidth]{static/image8.JPG}
+  \caption{Semantic Normalization Pipe Diagram}
+  \label{fig:verticalpartitioning-diagram}
+\end{figure}
+
+\subsection{Computing batch views}
+
+At this stage the data is ready to compute the batch views. The key point is the flexibility to run arbitrary functions in parallel on all of the data. This subsection follows by two examples how are the views computed.
+
+\subsubsection{View 1: Average Speeding (over time)}
+As outlined earlier, the first batch view should identify the roads with the highest average speed. Therefore the view has to aggregate the \say{speed} of traffic using each road (\textit{edge/lane}). If we would have a valid timestamp we could approach this problem with hourly, daily, weekly etc. granularities. Since we have normalized our dataset, it reduced the size of the data we have to traverse.
+
+\begin{figure}[H]
+  \includegraphics[width=0.36\linewidth]{static/image4.JPG}
+  \caption{Pipe Diagram of View1}
+  \label{fig:verticalpartitioning-diagram}
+\end{figure}
+
+\subsubsection{View 2: pedestrian-vehicle ratio}
+The second batch view computes the pedestrian-vehicle ration for each edge. We compute the total number of visits for each domain - vehicle, pedestrians. This traces each visit that a pedestrian or vehicle made as they passed along an edge. After counting all of the visits in each domain, we simply divide the two fields and get the ratio results.
+
+\begin{figure}[H]
+  \includegraphics[width=0.36\linewidth]{static/image4.JPG}
+  \caption{Pipe Diagram of View2}
+  \label{fig:verticalpartitioning-diagram}
+\end{figure}
+
+\section{Serving Layer}
+The serving layer serves the precomputed batch views. In our implementation we have used \textit{Apache Hive}. This enabled us to manage our views in a distributed manner. The key advantage of choosing \textit{Hive} is its accessibility to data via \textit{SQL} and its ability to organize tables into partitions. For example, in our first view we are aggregating the entire data set to get the average speed at each edge point, but suppose we need to retrieve the average speed detail by a given timestamp. \textit{Hive} allows to partition the vehicle data with year, month, week, day etc. granularity which reduces the query processing time.
+
+\begin{figure}[H]
+  \includegraphics[width=0.56\linewidth]{static/image2.JPG}
+  \caption{Serving Layer}
+  \label{fig:verticalpartitioning-diagram}
+\end{figure}
+
+\section{Discussion}
+In this section, we will discuss the down sides of, and “ifs”, of this system.
+
+\subsection{Challenges of the Proposed system}
+
+Placing speed cameras requires more than just having our current data set. The figure below, which is created by Tableau based on the sample data set, shows the roads with the highest speed recorded for vehicles (green = lower average speed, red = higher average speed).
+
+\begin{figure}[H]
+  \includegraphics[width=0.66\linewidth]{static/image6.PNG}
+  \caption{Visualization of the roads with the highest speed recorded for vehicles}
+  \label{fig:verticalpartitioning-diagram}
+\end{figure}
+
+
+It is easy to assume that we do a great service for the safety of residents if we simply place the cameras on these roads. However, one can easily be misled by the data if we don’t consider the circumstances in which these data are recorded. Although it is not present in the output dataset generated by \textit{SUMO}, we know for a fact that some roads and streets in the city have a lower speed limit than for example the highways. By placing speed cameras on the roads with the highest speed, we are only monitoring the vehicles that travel fast on the fastest roads. Because highways tend to have higher speed limits and very low pedestrian traffic, they may not pose the same danger to pedestrians as the roads with higher pedestrian traffic. Furthermore, placing speed cameras only on the roads with the highest speed serves only to identify speeding crimes, which is different from what we are trying to achieve (increasing safety for the residents of Copenhagen). We addressed these issues in two steps.
+
+\textbf{View 1: Identify the roads with the highest average speed to place speed cameras}
+
+Firstly, we researched the threshold at which vehicle speed becomes dangerous to pedestrians. (Tefft 2011) identifies that speeds above 25 mph (~11 m/s) significantly increases the severity of injuries inflicted on pedestrians by vehicles in road traffic accidents. We used this information to filter all roads down to a subset of roads that pose an increased risk to pedestrians (i.e. roads whose average speed is above 11 m/s). Secondly, we examined how many pedestrians (on average) traverse a road in Copenhagen. This gives us a concrete definition of what constitutes a ‘busy’ pedestrian road (i.e. any road with an above average number of pedestrians using it), and we use this measure to further filter the list. The final result is a set of busy pedestrian roads with traffic travelling at speeds that pose a risk to pedestrians - the table below shows the top 10 of these roads, in order of how busy they are (descending), and average vehicle speed (descending). We would therefore advise the city to install speed cameras on these roads in the order shown to potentially have a maximal, positive effect on pedestrian safety.
+
+\begin{figure}[H]
+  \includegraphics[width=0.66\linewidth]{static/image7.PNG}
+  \caption{Example table showing a snippet of the output created by the average speed view}
+  \label{fig:verticalpartitioning-diagram}
+\end{figure}
+
+\textbf{View 2: Identify roads with the highest pedestrian/vehicle ratio}
+
+Furthermore, pedestrianised areas can provide less interaction between vehicles and pedestrians which could result in a reduction of the likelihood of emergency incidents (Tefft 2011). \say{They can also have significant impact on local environmental conditions by provoking changes in the characteristics of traffic flows and on the patterns of traffic emissions} (Chiquetto 1997).
+
+Pedestrianizing certain areas could lead to an increase in business and circulation of credit as people tend to go shopping in these areas and spend their weekends at the cafes and restaurants. However, these types of streets only require a certain range of businesses to exist such as beauty products, toy shops, clothes and fashion and will definitely push other businesses out of the city center, such as vehicle products, bike shops etc. Additionally, these areas tend to get very expensive and only major brands can afford to have a business in these areas which could kill local businesses (Independent 1999).
+
+If we are to pedestrianise streets, it makes sense to dedicate those streets to pedestrians where they are more attractive to pedestrians, in and around the area where there are restaurants and shopping centers and cinemas. However, the other downsides of such implementations could be that we create a space where it is difficult to find a parking place, or navigating around by car becomes difficult and that can create a bottleneck for police cars and ambulances to get around. Furthermore this could also lead to more difficulty in supplying the shops in these areas.
+
+These areas become dead-empty in the evening which could create the exact opposite effect than they provide during the day; a dead, useless area that could pose dangers to pedestrians late at night.
+
+More pedestrianised areas could unbalance the mobility in the city, so our aim is not to have a car-free city but rather to dedicate some small places in the city to only pedestrians to have a safer area to walk, providing more safety for both pedestrians and drivers in general.
+
+Given that there are several types of edges in the data (roads, intersections), intersections must be ignored as it does not make sense to pedestrianise an intersection. To then identify roads that could be candidates for pedestrianisation, we looked at the ratio between the number of pedestrians and the number of vehicles to visit each road. This gives an indication of how much more often pedestrians use a road compared to cars. We think that pedestrianising roads with the highest pedestrian/vehicle ratio would create the fewest repercussions in terms of traffic displacement, where vehicles must find another route around any newly-closed roads. At the same time, roads that already have a relatively high number of pedestrians using them naturally lend themselves to being pedestrianised compared to those that are not used very often. Since our main focus is to increase the safety of the citizens, we are selecting the streets with the highest congestion that includes both vehicles and pedestrians. It would have been very simple to choose places where there are more pedestrians than vehicles, but the issue with that could be that in circumstances where pedestrians are not exposed to vehicles, there would be less risk of road incidents. Therefore, it doesn't make sense to select roads with simply the highest ratio of pedestrians. To focus our priorities on roads where both actors (pedestrians and vehicles) are actively and heavily engaged and congested, we again saw it fit to filter the list of roads to keep only those with an average (or above) flow of pedestrians and vehicles. The table below shows the top 10 roads, sorted by pedestrian/vehicle ratio (descending), the number of pedestrians (descending), and the number of vehicles (ascending). We chose to sort this way to favour roads with high volumes of pedestrians and low volumes of vehicles, under the assumption this would have the least impact on the overall traffic flow.
+
+\begin{figure}[H]
+  \includegraphics[width=0.66\linewidth]{static/image10.PNG}
+  \caption{Example table showing a snippet of the output created by the pedestrianised roads view}
+  \label{fig:verticalpartitioning-diagram}
+\end{figure}
+
+\textbf{View 3: Identify the \say{most travelled} roads}
+
+A data-driven system to monitor road conditions to prioritize them for check-up to consider if they need repair, can save the municipality a great deal of trouble, money and human resources. However, developing a system for repairing and maintaining roads that is data-driven could focus on certain areas and leave out some other areas. If we develop a system based on the assumption that the most-driven roads are the priority to be repaired, that will create a system where only crowded areas get the most attention, which means center of Copenhagen (one of the most expensive areas of Copenhagen), and leaves out other places that rarely get the same traffic but have bad road conditions. Roads are damaged by a number of things such as natural disasters, water, traffic etc. Furthermore, the engineering of the road and the construction process can lead to a poor or rich quality of the road that can affect the duration of the road. So it is very important to remain aware of these factors while designing a system for maintaining roads. Our solution would be to take the city map and break the city down into different zones, and within each zone, consider which areas are most trafficked to prioritize them for regular monitoring of conditions.
+
+To identify the most-used roads, we count the number of unique vehicles that visit each road. We were careful to implement our view so that if a particular car uses a road during one part of its journey, departs from it, and later returns to it, this counts as two visits, even though it is the same vehicle. This is important because the road will have sustained two rounds of damage and this must be accounted for. The table below shows the top 10 most-visited roads, sorted by the number of vehicles (descending).
+
+\begin{figure}[H]
+  \includegraphics[width=0.66\linewidth]{static/image5.PNG}
+  \caption{Example table showing a snippet of the output created by the road conditions view}
+  \label{fig:verticalpartitioning-diagram}
+\end{figure}
+
+\section{Conclusion}
+
+We have attempted to analyze the data we have been provided, and come up with a solution(s) in order to create a safer city for the residents. We have done so with a package of three different proposals. We have identified which roads in the city could be dangerous and suggested to create some car-free zones like Strøget, as well as placing speed cameras in different places in order to moderate the drivers’ driving habits. We have acknowledged that bad roads could also cause car accidents, so we suggested that instead of monitoring all roads, by the use of technology, one can implement this system to identify the most travelled roads and prioritize them for regular check-up to see if they need maintenance or repair.
+
+Our aim was to make a system that all the time tries to minimize the amount of work that emergency departments in hospitals carry out, due to road accidents.
+
+\section{Reflection/Log}
+
+In this section we will reflect and discuss the different technical and critical challenges and problems we have faced while doing this project.
+
+\subsection{Technical Challenges/Issues}
+
+The first issue we faced is how to get the data into a structure that we could query. We chose to split the master data into two logical subsets: vehicles and pedestrians. We applied data cleaning rules to make both subsets consistent with each other, but this was difficult as the metadata on the developer’s website seems to describe the expected format of the input data to the model, more than the format of the output. There are some descriptions of the expected output but we could not find explanations for all cases. Therefore, we had to figure out some rules by looking at the data and making some assumptions about how it is formatted. For example, deciding what to do with edges whose name is prefixed with a minus symbol, prefixed with a colon, suffixed with an underscore followed by a number, etc.
+
+
+\subsection{Critical Challenges/Issues}
+
+While discussing the three views it was evident that we had very different perspectives when defining what we individually perceived as a solution. This issue led to disagreements and discussions. Some argued that it was important that certain solutions were totally independent from the self-driven car systems, while others believed that the technology within the self-driven car was built to interact within the actual cities infrastructure, considering it as safe as manually-driven cars. While these discussions halted the writing process, it led to academic discussions between the different parts of the group. All in all, these discussions have been important since it allowed for several epistemological discussions that have been important to have. These discussions have given all group members a great impression of how the same data can be interpreted in very different ways, whilst giving us tools in how to work with individuals with others that do not share the same perception.
+
+\newpage
+\begin{thebibliography}{9}
+\bibitem{chiquetto} 
+Chiquetto, S. (1997). The environmental impacts from the implementation of a pedestrianization scheme. \\\texttt{http://www.sciencedirect.com/science/article/pii/S1361920996000168}
+ 
+\bibitem{academy} s
+Chi Square Academy (2017). Big Data Applications in Transportation Industry\\\texttt{https://www.chisquareacademy.com/2017/05/16/big-data-applications-transportation-industry}
+ 
+\bibitem{stallman} 
+IAPP (2016). Top 10 operational impacts of the GDPR: Pseudonymization Stallman\\\texttt{https://iapp.org/news/a/top-10-operational-impacts-of-the-gdpr-part-8-pseudonymization}
+
+\bibitem{kitchin} 
+Independent (1999). Pedestrianised towns say: we want cars.
+\\\texttt{https://www.independent.co.uk/news/pedestrianised-towns-say-we-want-cars-1122452.htm}
+
+\bibitem{zuboff} 
+Gitelman and Jackson (2013) Raw Data is an Oxymoron
+
+\bibitem{datax} 
+Mirror (2017). How to claim compensation if you have an accident due to bad road conditions?
+\\\texttt{http://www.mirror.co.uk/money/bad-roads-personal-injury-claim-10092794}
+
+\bibitem{haddadi} 
+Mercury Tide (2017). Does your retention policy comply with the GDPR?
+\\\texttt{https://www.aaafoundation.org/sites/default/files/2011PedestrianRiskVsSpeed.pdf}
+
+\bibitem{goldberg} 
+Tefft, C. (2011). Impact Speed and a Pedestrian’s Risk of Severe Injury or Death.
+\\\texttt{https://www.mercurytide.co.uk/blog/article/does-your-retention-policy-comply-gdpr/}
+
+\bibitem{world} 
+World Population Review (2017).
+\\\texttt{http://worldpopulationreview.com/world-cities/copenhagen-population/}
+
+\bibitem{washingtonpost} 
+Washingtonpost (2009). Bad Highway Design, Conditions Contribute to Half of Fatal Auto Crashes in U.S. \\\texttt{http://www.washingtonpost.com/wp-dyn/content/article/2009/07/01/AR2009070101700.html}
+\end{thebibliography}
+
+\end{document}
